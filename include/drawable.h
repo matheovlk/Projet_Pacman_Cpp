@@ -1,5 +1,4 @@
-#ifndef __DRAWABLE_H__
-#define __DRAWABLE_H__
+#pragma once
 
 #include <SDL2/SDL.h> 
 
@@ -24,5 +23,3 @@ class Drawable
         SDL_Surface* sprites_ = nullptr;
         SDL_Surface* win_surf_ = nullptr;
 };
-
-#endif

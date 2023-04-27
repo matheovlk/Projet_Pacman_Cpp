@@ -1,5 +1,4 @@
-#ifndef __WINDOW_H__
-#define __WINDOW_H__
+#pragma once
 
 #include <SDL2/SDL.h>
 #include <iostream>
@@ -33,5 +32,3 @@ class Window
         int init(SDL_Window* &pWindow, SDL_Surface* &win_surf, SDL_Surface* &sprites);
         void run_game();
 };
-
-#endif
