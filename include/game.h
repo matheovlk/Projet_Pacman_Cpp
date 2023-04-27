@@ -1,63 +1,58 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
+
+#include "drawable.h"
 
 class Game
 {
-
     public:
         
         Game(){};
 
-        void draw(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* plancheSprites, int* count)
+        void init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
         {
-            SDL_SetColorKey(plancheSprites, false, 0);
-            SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
+            SDL_Event event;
+            bool quit = false;
+            Drawable map{sprites, win_surf, map_sprite_loc, 4, false};
+            Drawable pacman{sprites, win_surf, { 21 ,90, 13,14 }, 4};
 
-            // petit truc pour faire tourner le fantome
-            SDL_Rect* ghost_in = nullptr;
-            switch (*count/128)
+            while (!quit)
             {
-                case 0:
-                    ghost_in = &(ghost_r);
-                    ghost.x++;
-                    break;
-                case 1:
-                    ghost_in = &(ghost_d);
-                    ghost.y++;
-                    break;
-                case 2:
-                    ghost_in = &(ghost_l);
-                    ghost.x--;
-                    break;
-                case 3:
-                    ghost_in = &(ghost_u);
-                    ghost.y--;
-                    break;
-            }
-            *count =(*count+1)%(512);
+                SDL_Event event;
+                while (!quit && SDL_PollEvent(&event))
+                {
+                    switch (event.type)
+                    {
+                    case SDL_QUIT:
+                        quit = true;
+                        break;
+                    default: break;
+                    }
+                }
 
-            // ici on change entre les 2 sprites sources pour une jolie animation.
-            SDL_Rect ghost_in2 = *ghost_in;
-            if ((*count/4)%2)
-                ghost_in2.x += 17;
-                
-            // couleur transparente
-            SDL_SetColorKey(plancheSprites, true, 0);
-            // copie du sprite zoomé
-            SDL_BlitScaled(plancheSprites, &ghost_in2, win_surf, &ghost);
+                // Gestion du clavier        
+                int nbk;
+                const Uint8* keys = SDL_GetKeyboardState(&nbk);
+                if (keys[SDL_SCANCODE_ESCAPE])
+                    quit = true;
+
+                map.draw(0, 0);
+
+                pacman.draw(0, 0);
+
+
+                // AFFICHAGE
+                SDL_UpdateWindowSurface(pWindow); 
+                // LIMITE A 60 FPS
+                SDL_Delay(16); // utiliser SDL_GetTicks64() pour plus de precisions
+            }
         }
 
     private:
-        SDL_Rect src_bg = { 200,3, 168,216 }; // x,y, w,h (0,0) en haut a gauche
-        SDL_Rect bg = { 4,4, 672,864 }; // ici scale x4
+        SDL_Rect map_sprite_loc = { 370,4, 167,214 }; // x,y, w,h (0,0) en haut a gauche
 
-        SDL_Rect ghost_r = { 3,123, 16,16 }; 
-        SDL_Rect ghost_l = { 37,123, 16,16 }; 
-        SDL_Rect ghost_d = { 105,123, 16,16 }; 
-        SDL_Rect ghost_u = { 71,123, 16,16 }; 
-        SDL_Rect ghost = { 34,34, 32,32 };     // ici scale x2
 };
 
 #endif

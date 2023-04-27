@@ -9,8 +9,9 @@ add_executable(${PROJECT_NAME} "")
 target_sources(${PROJECT_NAME}
 	PRIVATE
 	src/main.cpp
-	src/pacman.cpp
+	src/window.cpp
 	src/game.cpp
+	src/drawable.cpp
 	)
 target_include_directories(${PROJECT_NAME}
 	PRIVATE

@@ -1,9 +1,9 @@
-#include "pacman.h"
+#include "window.h"
 
 int main(int argc, char **argv)
 {
-    Pacman pacman{};
-    pacman.start();
+    Window window{};
+    window.start();
 
     return 0;
 }

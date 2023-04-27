@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        ".ez": "C++",
+        "*.tcc": "cpp",
+        "unordered_map": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "numeric": "cpp",
+        "ostream": "cpp",
+        "array": "cpp",
+        "typeinfo": "cpp",
+        "iostream": "cpp"
+    }
+}
