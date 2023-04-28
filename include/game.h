@@ -21,7 +21,7 @@ class Game
         {
             std::array<std::string, MAP_HEIGHT> map_sketch = {
             "wwwwwwwwwwwwwwwwwwwww",
-            "w.........w.........w",
+            "w.P.......w.........w",
             "w.www.www.w.www.www.w",
             "wowww.www.w.www.wwwow",
             "w.www.www.w.www.www.w",
@@ -40,7 +40,7 @@ class Game
             "wwwww.w wwwww w.wwwww",
             "w.........w.........w",
             "w.www.www.w.www.www.w",
-            "wo..w.....P.....w..ow",
+            "wo..w..... .....w..ow",
             "www.w.w.wwwww.w.w.www",
             "www.w.w.wwwww.w.w.www",
             "w.....w...w...w.....w",

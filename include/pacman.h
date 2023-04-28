@@ -23,7 +23,7 @@ class Pacman: public Movable
             sprite_coord_ = SDL_Rect {PACMAN_SPRITE_X, PACMAN_SPRITE_Y, PACMAN_SPRITE_W, PACMAN_SPRITE_H};
             scale_ = BASIC_SPRITE_SCALE;
             transparent_ = true;
-            direction_ = LEFT;
+            direction_ = RIGHT;
         }
 
 

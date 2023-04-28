@@ -17,6 +17,6 @@ void Drawable::draw(int x, int y)
         SDL_SetColorKey(sprites_, false, 0);
 
     }
-    SDL_Rect location = { x,y, (sprite_coord_.w * scale_) , (sprite_coord_.h * scale_)};
+    SDL_Rect location = { x ,y, (sprite_coord_.w * scale_) , (sprite_coord_.h * scale_)};
     SDL_BlitScaled(sprites_, &sprite_coord_, win_surf_, &location);
 }

@@ -1,12 +1,12 @@
 #pragma once
 
-constexpr float GAME_SPEED = 0.5;
+constexpr float GAME_SPEED = 1;
 
 
 constexpr unsigned char MAP_WIDTH = 21;
 constexpr unsigned char MAP_HEIGHT = 27;
 
-constexpr unsigned char CELL_SIZE = 8;
+constexpr unsigned char CELL_SIZE = 32;
 //x y  w h
 constexpr unsigned char BASIC_SPRITE_SCALE = 2;
 

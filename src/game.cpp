@@ -24,6 +24,7 @@ std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>  Game::sketch_to_board(std::
 				case 'P':
 				{
 					pacman.set_position(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2);
+					board[x][y] = Cell::Empty;
 				}
                 default:
                 {
