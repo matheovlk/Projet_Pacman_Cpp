@@ -4,9 +4,12 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <algorithm>
+
+#include "constants.h"
 
 #include "drawable.h"
-#include "constants.h"
+#include "pacman.h"
 
 class Game
 {
@@ -17,51 +20,50 @@ class Game
         void init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
         {
             std::array<std::string, MAP_HEIGHT> map_sketch = {
-            "wwwwwwwwwwwwwwwwwwwwwwwwwwww",
-            "w............ww............w",
-            "w.wwww.wwwww.ww.wwwww.wwww.w",
-            "wowwww.wwwww.ww.wwwww.wwwwow",
-            "w.wwww.wwwww.ww.wwwww.wwww.w",
-            "w..........................w",
-            "w.wwww.ww.wwwwwwww.ww.wwww.w",
-            "w.wwww.ww.wwwwwwww.ww.wwww.w",
-            "w......ww....ww....ww......w",
-            "wwwwww.wwwww ww wwwww.wwwwww",
-            "wwwwww.wwwww ww wwwww.wwwwww",
-            "wwwwww.ww          ww.wwwwww",
-            "wwwwww.ww wwwwwwww ww.wwwwww",
-            "wwwwww.ww w      w ww.wwwwww",
-            "      .   w      w   .      ",
-            "wwwwww.ww w      w ww.wwwwww",
-            "wwwwww.ww wwwwwwww ww.wwwwww",
-            "wwwwww.ww          ww.wwwwww",
-            "wwwwww.ww wwwwwwww ww.wwwwww",
-            "wwwwww.ww wwwwwwww ww.wwwwww",
-            "w............ww............w",
-            "w.wwww.wwwww.ww.wwwww.wwww.w",
-            "w.wwww.wwwww.ww.wwwww.wwww.w",
-            "wo..ww....... P.......ww..ow",
-            "www.ww.wwwww.ww.wwwww.ww.www",
-            "www.ww.wwwww.ww.wwwww.ww.www"
-            "w......ww....ww....ww......w",
-            "w.wwwwwwwwww.ww.wwwwwwwwww.w",
-            "w.wwwwwwwwww.ww.wwwwwwwwww.w",
-            "w..........................w",
-            "wwwwwwwwwwwwwwwwwwwwwwwwwwww"
+            "wwwwwwwwwwwwwwwwwwwww",
+            "w.........w.........w",
+            "w.www.www.w.www.www.w",
+            "wowww.www.w.www.wwwow",
+            "w.www.www.w.www.www.w",
+            "w...................w",
+            "w.www.w.wwwww.w.www.w",
+            "w.www.w.wwwww.w.www.w",
+            "w.....w...w...w.....w",
+            "wwwww.www w www.wwwww",
+            "wwwww.w       w.wwwww",
+            "wwwww.w wwwww w.wwwww",
+            "wwwww.w wwwww w.wwwww",
+            "     .  wwwww  .     ",
+            "wwwww.w wwwww w.wwwww",
+            "wwwww.w       w.wwwww",
+            "wwwww.w wwwww w.wwwww",
+            "wwwww.w wwwww w.wwwww",
+            "w.........w.........w",
+            "w.www.www.w.www.www.w",
+            "wo..w.....P.....w..ow",
+            "www.w.w.wwwww.w.w.www",
+            "www.w.w.wwwww.w.w.www",
+            "w.....w...w...w.....w",
+            "w.wwwwwww.w.wwwwwww.w",
+            "w...................w",
+            "wwwwwwwwwwwwwwwwwwwww",
 
-        };
+
+            };
             SDL_Event event;
             bool quit = false;
 
             std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> board{};
+            Pacman pacman{sprites, win_surf};
 
-            board = sketch_to_board(map_sketch);
+            board = sketch_to_board(map_sketch, pacman);
 
             Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
-            Drawable pacman{sprites, win_surf, { PACMAN_SPRITE_X ,PACMAN_SPRITE_Y, PACMAN_SPRITE_W, PACMAN_SPRITE_H }, PACMAN_SPRITE_SCALE};
 
             while (!quit)
             {
+                Uint64 start = SDL_GetPerformanceCounter();
+
                 SDL_Event event;
                 while (!quit && SDL_PollEvent(&event))
                 {
@@ -74,26 +76,40 @@ class Game
                     }
                 }
 
-                // Gestion du clavier        
-                int nbk;
-                const Uint8* keys = SDL_GetKeyboardState(&nbk);
+                // Gestion du clavier     
+
+                
+                   
+                const Uint8 *keys = SDL_GetKeyboardState(NULL);
                 if (keys[SDL_SCANCODE_ESCAPE])
                     quit = true;
+                if (keys[SDL_SCANCODE_LEFT])
+                    pacman.go_left();
+                if (keys[SDL_SCANCODE_RIGHT])
+                    pacman.go_right();
+                if (keys[SDL_SCANCODE_UP])
+                    pacman.go_up();
+                if (keys[SDL_SCANCODE_DOWN])
+                    pacman.go_down();
 
                 map.draw(0, 0);
 
-                pacman.draw(35, 35);
+                pacman.draw();
 
 
                 // AFFICHAGE
                 SDL_UpdateWindowSurface(pWindow); 
-                // LIMITE A 60 FPS
-                SDL_Delay(16); // utiliser SDL_GetTicks64() pour plus de precisions
+
+                //30 FPS
+                Uint64 end = SDL_GetPerformanceCounter();
+                float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
+                // std::cout << std::max(floor(33.333f - elapsedMS), 0.0f) << std::endl;
+                SDL_Delay(std::max(floor(33.333f  - elapsedMS), 0.0f));
             }
         }
 
     private:
         SDL_Rect map_sprite_loc = { MAP_SPRITE_X ,MAP_SPRITE_Y, MAP_SPRITE_W, MAP_SPRITE_H }; // x,y, w,h (0,0) en haut a gauche
-        std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> sketch_to_board(std::array<std::string, MAP_HEIGHT>&);
+        std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> sketch_to_board(std::array<std::string, MAP_HEIGHT>&, Pacman&);
 
 };

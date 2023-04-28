@@ -12,6 +12,8 @@ target_sources(${PROJECT_NAME}
 	src/window.cpp
 	src/game.cpp
 	src/drawable.cpp
+	src/movable.cpp
+	src/pacman.cpp
 	)
 target_include_directories(${PROJECT_NAME}
 	PRIVATE
@@ -26,4 +28,6 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets/pacman_sprites.bmp
 
 IF (MSVC)
 	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
+
+# add_compile_options(-Wl,-subsystem,windows)
 ENDIF()
