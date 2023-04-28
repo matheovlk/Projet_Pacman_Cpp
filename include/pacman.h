@@ -1,7 +1,17 @@
 #pragma once
 
+#include <array>
+#include <iostream>
 #include "movable.h"
 #include "constants.h"
+
+enum Direction
+{
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN,
+};
 
 class Pacman: public Movable
 {
@@ -13,13 +23,21 @@ class Pacman: public Movable
             sprite_coord_ = SDL_Rect {PACMAN_SPRITE_X, PACMAN_SPRITE_Y, PACMAN_SPRITE_W, PACMAN_SPRITE_H};
             scale_ = BASIC_SPRITE_SCALE;
             transparent_ = true;
+            direction_ = LEFT;
         }
+
+
+
+        void move(std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>&);
 
         void draw();
 
-        void go_up();
-        void go_down();
-        void go_left();
-        void go_right();
+        void set_direction(Direction, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>&);
+
+        private:
+
+            Direction direction_;
+
+
 
 };

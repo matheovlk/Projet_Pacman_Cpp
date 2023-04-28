@@ -16,7 +16,6 @@ std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>  Game::sketch_to_board(std::
             board[x][y] = Cell::Empty;
 			switch (sketch[y][x])
 			{
-				//#wall #obstacle #youcantgothroughme
 				case 'w':
 				{
 					board[x][y] = Cell::Wall;

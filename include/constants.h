@@ -1,5 +1,8 @@
 #pragma once
 
+constexpr float GAME_SPEED = 0.5;
+
+
 constexpr unsigned char MAP_WIDTH = 21;
 constexpr unsigned char MAP_HEIGHT = 27;
 

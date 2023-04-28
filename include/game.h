@@ -84,16 +84,24 @@ class Game
                 if (keys[SDL_SCANCODE_ESCAPE])
                     quit = true;
                 if (keys[SDL_SCANCODE_LEFT])
-                    pacman.go_left();
+                {
+                    pacman.set_direction(LEFT, board);
+                }
                 if (keys[SDL_SCANCODE_RIGHT])
-                    pacman.go_right();
+                {
+                    pacman.set_direction(RIGHT, board);
+                }
                 if (keys[SDL_SCANCODE_UP])
-                    pacman.go_up();
+                {
+                    pacman.set_direction(UP, board);
+                }
                 if (keys[SDL_SCANCODE_DOWN])
-                    pacman.go_down();
-
+                {
+                    pacman.set_direction(DOWN, board);
+                }
                 map.draw(0, 0);
 
+                pacman.move(board);
                 pacman.draw();
 
 
@@ -103,8 +111,7 @@ class Game
                 //30 FPS
                 Uint64 end = SDL_GetPerformanceCounter();
                 float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-                // std::cout << std::max(floor(33.333f - elapsedMS), 0.0f) << std::endl;
-                SDL_Delay(std::max(floor(33.333f  - elapsedMS), 0.0f));
+                SDL_Delay(std::max(floor(33.333f / GAME_SPEED - elapsedMS), 0.0f));
             }
         }
 
