@@ -1,10 +1,5 @@
 # include "pacman.h"
 
-void Pacman::draw()
-{
-    Drawable::draw(x_ - (sprite_coord_.w * scale_  / 2), y_ - (sprite_coord_.h * scale_ / 2));
-}
-
 void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& board)
 {
 
@@ -17,7 +12,7 @@ void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_
         {
             if
             (
-                board[floor((x_ - half_cell_size) / static_cast<unsigned int>(CELL_SIZE))][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
+                board[static_cast<int>(floor((x_ - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))) % 21][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 y_ % CELL_SIZE == half_cell_size
             )
                 direction_ = LEFT;
@@ -27,7 +22,7 @@ void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_
         {
             if
             (
-                board[floor((x_ + half_cell_size) / static_cast<unsigned int>(CELL_SIZE))][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
+                board[static_cast<int>(floor((x_ + half_cell_size) / (CELL_SIZE))) % 21][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 y_ % CELL_SIZE == half_cell_size
             )
                 direction_ = RIGHT;
@@ -37,7 +32,7 @@ void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_
         {
             if
             (
-                board[floor((x_ - half_cell_size) / static_cast<unsigned int>(CELL_SIZE))][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
+                board[floor(x_ / static_cast<unsigned int>(CELL_SIZE))][floor((y_ - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 x_ % CELL_SIZE == half_cell_size
             )
                 direction_ = UP;
@@ -47,7 +42,7 @@ void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_
         {
             if
             (
-                board[floor((x_ + half_cell_size) / static_cast<unsigned int>(CELL_SIZE))][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
+                board[floor(x_ / static_cast<unsigned int>(CELL_SIZE))][floor((y_ + half_cell_size) / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 x_ % CELL_SIZE == half_cell_size
             )
                 direction_ = DOWN;
@@ -58,21 +53,18 @@ void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_
 
 void Pacman::move(std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& board)
 {
-
-    unsigned char x_on_board = static_cast<unsigned int>(floor(x_ / static_cast<unsigned int>(CELL_SIZE) / static_cast<unsigned int>(MAP_SPRITE_SCALE)));
-    unsigned char y_on_board = static_cast<unsigned int>(floor(y_ / static_cast<unsigned int>(CELL_SIZE) / static_cast<unsigned int>(MAP_SPRITE_SCALE)));
     const unsigned char half_cell_size = CELL_SIZE / 2;
-
-    // std::cout << y_ % CELL_SIZE << std::endl;
-    // std::cout << +half_cell_size << std::endl;
-    // std::cout << board[floor((x_ - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] << std::endl;
 
 
     switch(direction_)
     {
         case LEFT:
         {
-            if
+            if (x_ == 0)
+                x_ = MAP_WIDTH * CELL_SIZE;
+            else if (x_ <= half_cell_size)
+                x_--;
+            else if
             (
                 board[floor((x_ - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 y_ % CELL_SIZE == half_cell_size
@@ -82,7 +74,11 @@ void Pacman::move(std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>& board)
         }
         case RIGHT:
         {
-            if
+            if (x_ == MAP_WIDTH * CELL_SIZE)
+                x_ = 0;
+            else if (floor(x_ / CELL_SIZE + 1) == MAP_WIDTH && x_ + half_cell_size > MAP_WIDTH)
+                x_++;
+            else if
             (
                 board[floor((x_ + (half_cell_size)) / static_cast<unsigned int>(CELL_SIZE))][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 y_ % CELL_SIZE == half_cell_size

@@ -1,9 +1,5 @@
-#include <iostream>
-
-#include "constants.h"
 
 #include "game.h"
-#include "pacman.h"
 
 std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>  Game::sketch_to_board(std::array<std::string, MAP_HEIGHT> &sketch, Pacman &pacman)
 {
@@ -35,4 +31,12 @@ std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>  Game::sketch_to_board(std::
 	}
 
 	return board;
+}	
+
+bool Game::get_update_animation_index()
+{
+	game_animation_index++;
+	if (!(game_animation_index = game_animation_index % 10))
+		return true;
+	return false;
 }

@@ -5,13 +5,7 @@
 #include "movable.h"
 #include "constants.h"
 
-enum Direction
-{
-    LEFT,
-    RIGHT,
-    UP,
-    DOWN,
-};
+
 
 class Pacman: public Movable
 {
@@ -20,24 +14,21 @@ class Pacman: public Movable
         {
             sprites_ = sprites;
             win_surf_ = win_surf;
-            sprite_coord_ = SDL_Rect {PACMAN_SPRITE_X, PACMAN_SPRITE_Y, PACMAN_SPRITE_W, PACMAN_SPRITE_H};
+            sprite_coord_ = SDL_Rect {PACMAN_3_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H};
+            animation_textures = 
+            {
+                {PACMAN_1_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
+                {PACMAN_2_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
+                {PACMAN_3_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H}
+            };
+            nb_anim_frames = 3;
             scale_ = BASIC_SPRITE_SCALE;
             transparent_ = true;
             direction_ = RIGHT;
         }
 
-
-
         void move(std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>&);
 
-        void draw();
-
         void set_direction(Direction, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>&);
-
-        private:
-
-            Direction direction_;
-
-
 
 };

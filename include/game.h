@@ -60,6 +60,7 @@ class Game
 
             Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
 
+
             while (!quit)
             {
                 Uint64 start = SDL_GetPerformanceCounter();
@@ -75,6 +76,7 @@ class Game
                     default: break;
                     }
                 }
+                update_anim = get_update_animation_index();
 
                 // Gestion du clavier     
 
@@ -102,7 +104,7 @@ class Game
                 map.draw(0, 0);
 
                 pacman.move(board);
-                pacman.draw();
+                pacman.draw(update_anim);
 
 
                 // AFFICHAGE
@@ -111,11 +113,14 @@ class Game
                 //30 FPS
                 Uint64 end = SDL_GetPerformanceCounter();
                 float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-                SDL_Delay(std::max(floor(33.333f / GAME_SPEED - elapsedMS), 0.0f));
+                SDL_Delay(std::max(floor(10.0f / GAME_SPEED - elapsedMS), 0.0f));
             }
         }
 
     private:
+        bool update_anim = false;
+        bool get_update_animation_index();
+        unsigned char game_animation_index = 0;
         SDL_Rect map_sprite_loc = { MAP_SPRITE_X ,MAP_SPRITE_Y, MAP_SPRITE_W, MAP_SPRITE_H }; // x,y, w,h (0,0) en haut a gauche
         std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> sketch_to_board(std::array<std::string, MAP_HEIGHT>&, Pacman&);
 
