@@ -16,6 +16,7 @@ enum Direction
 class Movable: public Drawable
 {
     public:
+    
         Movable(){};
 
         void set_position(unsigned int x, unsigned int y);

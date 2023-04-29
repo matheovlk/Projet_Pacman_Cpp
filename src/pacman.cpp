@@ -15,7 +15,11 @@ void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_
                 board[static_cast<int>(floor((x_ - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))) % 21][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 y_ % CELL_SIZE == half_cell_size
             )
-                direction_ = LEFT;
+                {
+                    direction_ = LEFT;
+                    animation_textures = pacman_textures.find(LEFT)->second;
+
+                }
             break;
         }
         case RIGHT:
@@ -25,7 +29,10 @@ void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_
                 board[static_cast<int>(floor((x_ + half_cell_size) / (CELL_SIZE))) % 21][floor(y_ / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 y_ % CELL_SIZE == half_cell_size
             )
-                direction_ = RIGHT;
+                {
+                    direction_ = RIGHT;
+                    animation_textures = pacman_textures.find(RIGHT)->second;
+                }
             break;
         }
         case UP:
@@ -35,7 +42,10 @@ void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_
                 board[floor(x_ / static_cast<unsigned int>(CELL_SIZE))][floor((y_ - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 x_ % CELL_SIZE == half_cell_size
             )
-                direction_ = UP;
+                {
+                    direction_ = UP;
+                    animation_textures = pacman_textures.find(UP)->second;
+                }
             break;
         }
         case DOWN:
@@ -45,7 +55,10 @@ void Pacman::set_direction(Direction direction, std::array<std::array<Cell, MAP_
                 board[floor(x_ / static_cast<unsigned int>(CELL_SIZE))][floor((y_ + half_cell_size) / static_cast<unsigned int>(CELL_SIZE))] == Empty && \
                 x_ % CELL_SIZE == half_cell_size
             )
-                direction_ = DOWN;
+                {
+                    direction_ = DOWN;
+                    animation_textures = pacman_textures.find(DOWN)->second;
+                }
             break;
         }
     }

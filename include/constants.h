@@ -21,9 +21,15 @@ constexpr unsigned int CHARACTER_SPRITE_W = 14;
 constexpr unsigned int CHARACTER_SPRITE_H = 14;
 
 constexpr unsigned int PACMAN_SPRITE_Y = 90;
-constexpr unsigned int PACMAN_1_SPRITE_X = 4;
-constexpr unsigned int PACMAN_2_SPRITE_X = 21;
-constexpr unsigned int PACMAN_3_SPRITE_X = 34;
+constexpr unsigned int PACMAN_ROUND_SPRITE_X = 4;
+constexpr unsigned int PACMAN_RIGHT_1_SPRITE_X = 21;
+constexpr unsigned int PACMAN_RIGHT_2_SPRITE_X = 34;
+constexpr unsigned int PACMAN_LEFT_1_SPRITE_X = 48;
+constexpr unsigned int PACMAN_LEFT_2_SPRITE_X = 61;
+constexpr unsigned int PACMAN_UP_1_SPRITE_X = 76;
+constexpr unsigned int PACMAN_UP_2_SPRITE_X = 93;
+constexpr unsigned int PACMAN_DOWN_1_SPRITE_X = 110;
+constexpr unsigned int PACMAN_DOWN_2_SPRITE_X = 127;
 
 
 enum Cell
