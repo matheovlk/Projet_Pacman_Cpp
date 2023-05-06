@@ -1,20 +1,16 @@
 #pragma once
-#include "pacman.h"
-#include "constants.h"
+#include "pacman.hpp"
+#include "constants.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
 #include <array>
 
-using Board_cells = std::array<std::array<std::unique_ptr<Cell>, MAP_HEIGHT>, MAP_WIDTH>;
-
 class Board
 {
     public:
         
-        using Board_cells = std::array<std::array<std::unique_ptr<Cell>, MAP_HEIGHT>, MAP_WIDTH>;
-
-        Board(std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, SDL_Surface* sprites,SDL_Surface* win_surf){
+        Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, SDL_Surface* sprites,SDL_Surface* win_surf){
             board = sketch_to_board(map_sketch, pacman, sprites, win_surf);
         }
 
@@ -27,6 +23,6 @@ class Board
         void draw();
     private:
         Board_cells board;
-        Board_cells sketch_to_board(std::array<std::string, MAP_HEIGHT>, Pacman&, SDL_Surface* sprites,SDL_Surface* win_surf);
+        Board_cells sketch_to_board(const std::array<std::string, MAP_HEIGHT>, Pacman&, SDL_Surface* sprites,SDL_Surface* win_surf);
 
 };

@@ -1,21 +1,20 @@
 #pragma once
 
 #include <iostream>
-#include "constants.h"
+#include "constants.hpp"
 
 class Cell
 {
     public:
 
         Cell(){};
+
+        // virtual constructor for polymorphism
         virtual ~Cell() {}
 
         bool get_pac_can_pass();
         
-        Cell_type get_cell_type()
-        {
-            return cell_type;
-        }
+        Cell_type get_cell_type();
 
     protected:
         bool pac_can_pass = true;

@@ -1,4 +1,4 @@
-#include "window.h"
+#include "window.hpp"
 
 int Window::init(SDL_Window* &pWindow, SDL_Surface* &win_surf, SDL_Surface* &sprites)
 {

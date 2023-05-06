@@ -6,11 +6,11 @@
 #include <iostream>
 #include <algorithm>
 
-#include "constants.h"
+#include "constants.hpp"
 
-#include "drawable.h"
+#include "drawable.hpp"
 #include "board.hpp"
-#include "pacman.h"
+#include "pacman.hpp"
 #include "cell.hpp"
 
 class Game
@@ -19,108 +19,7 @@ class Game
         
         Game(){};
 
-        void init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
-        {
-            std::array<std::string, MAP_HEIGHT> map_sketch = {
-            "wwwwwwwwwwwwwwwwwwwww",
-            "w.........w.........w",
-            "w.www.www.w.www.www.w",
-            "wowww.www.w.www.wwwow",
-            "w.www.www.w.www.www.w",
-            "w...................w",
-            "w.www.w.wwwww.w.www.w",
-            "w.www.w.wwwww.w.www.w",
-            "w.....w...w...w.....w",
-            "wwwww.www w www.wwwww",
-            "wwwww.w       w.wwwww",
-            "wwwww.w wwwww w.wwwww",
-            "wwwww.w wwwww w.wwwww",
-            "     .  wwwww  .     ",
-            "wwwww.w wwwww w.wwwww",
-            "wwwww.w       w.wwwww",
-            "wwwww.w wwwww w.wwwww",
-            "wwwww.w wwwww w.wwwww",
-            "w.........w.........w",
-            "w.www.www.w.www.www.w",
-            "wo..w.....P.....w..ow",
-            "www.w.w.wwwww.w.w.www",
-            "www.w.w.wwwww.w.w.www",
-            "w.....w...w...w.....w",
-            "w.wwwwwww.w.wwwwwww.w",
-            "w...................w",
-            "wwwwwwwwwwwwwwwwwwwww",
-
-
-            };
-            SDL_Event event;
-            bool quit = false;
-
-            Pacman pacman{sprites, win_surf};
-
-
-            Board board{map_sketch, pacman, sprites, win_surf};
-
-
-
-            Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
-
-
-            while (!quit)
-            {
-                Uint64 start = SDL_GetPerformanceCounter();
-
-                SDL_Event event;
-                while (!quit && SDL_PollEvent(&event))
-                {
-                    switch (event.type)
-                    {
-                    case SDL_QUIT:
-                        quit = true;
-                        break;
-                    default: break;
-                    }
-                }
-                update_anim = get_update_animation_index();
-
-                // Gestion du clavier     
-
-                Board_cells& board_cells = board.get_board_cells();
-                   
-                const Uint8 *keys = SDL_GetKeyboardState(NULL);
-                if (keys[SDL_SCANCODE_ESCAPE])
-                    quit = true;
-                if (keys[SDL_SCANCODE_LEFT])
-                {
-                    pacman.set_direction(LEFT, board_cells);
-                }
-                if (keys[SDL_SCANCODE_RIGHT])
-                {
-                    pacman.set_direction(RIGHT, board_cells);
-                }
-                if (keys[SDL_SCANCODE_UP])
-                {
-                    pacman.set_direction(UP, board_cells);
-                }
-                if (keys[SDL_SCANCODE_DOWN])
-                {
-                    pacman.set_direction(DOWN, board_cells);
-                }
-                map.draw(0, 0);
-                board.draw();
-
-                pacman.move(board_cells);
-                board.interract(pacman);
-                pacman.draw(update_anim);
-
-                // AFFICHAGE
-                SDL_UpdateWindowSurface(pWindow); 
-
-                //30 FPS
-                Uint64 end = SDL_GetPerformanceCounter();
-                float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-                SDL_Delay(std::max(floor(10.0f / GAME_SPEED - elapsedMS), 0.0f));
-            }
-        }
+        void init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites);
 
     private:
         bool update_anim = false;

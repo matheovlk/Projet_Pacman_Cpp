@@ -2,10 +2,12 @@
 
 #include <vector>
 
-#include "drawable.h"
-#include "constants.h"
+#include "drawable.hpp"
+#include "constants.hpp"
 
-enum Direction
+
+// enum class is more precise than enum, avoid name conflict
+enum class Direction
 {
     LEFT,
     RIGHT,
@@ -19,13 +21,12 @@ class Movable: public Drawable
     
         Movable(){};
 
-        void set_position(int x, int y);
+        void set_position(const unsigned int& x, const unsigned int& y);
 
-        void draw(unsigned char update_anim);
+        void draw(const bool& update_anim);
 
     protected:
-        int x_;
-        int y_;
+        Coordinates<int> position;
         Direction direction_;
         std::vector<SDL_Rect> animation_textures;
         unsigned char animation_index = 0;

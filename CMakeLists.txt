@@ -16,7 +16,7 @@ target_sources(${PROJECT_NAME}
 	src/pacman.cpp
 	src/board.cpp
 	src/cells/cell.cpp
-	src/cells/empty.cpp
+	src/cells/nonEatable.cpp
 	src/cells/pacgum.cpp
 	src/cells/superPacgum.cpp
 	src/cells/eatable.cpp

@@ -2,7 +2,6 @@
 
 constexpr float GAME_SPEED = 1;
 
-
 constexpr unsigned char MAP_WIDTH = 21;
 constexpr unsigned char MAP_HEIGHT = 27;
 
@@ -42,7 +41,7 @@ constexpr unsigned int PACMAN_DOWN_1_SPRITE_X = 110;
 constexpr unsigned int PACMAN_DOWN_2_SPRITE_X = 127;
 
 
-// enum class over enum for safety
+// enum class is more precise than enum, avoid name conflict
 enum class Cell_type
 {
 	Empty,

@@ -1,35 +1,38 @@
 #include "board.hpp"
 #include "pacgum.hpp"
 #include "superPacgum.hpp"
-#include "constants.h"
-#include "empty.hpp"
+#include "constants.hpp"
+#include "nonEatable.hpp"
 #include <iostream>
 
-Board_cells Board::sketch_to_board(std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, SDL_Surface* sprites,SDL_Surface* win_surf)
+Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, SDL_Surface* sprites,SDL_Surface* win_surf)
 {
 	Board_cells board;
 
-	for (unsigned char y = 0; y < MAP_HEIGHT; y++)
+
+	// auto for loop iterator because we dont care of iterator type
+	for (auto y = 0; y < MAP_HEIGHT; y++)
 	{
-		for (unsigned char x = 0; x < MAP_WIDTH; x++)
+		for (auto x = 0; x < MAP_WIDTH; x++)
 		{
 			switch (sketch[y][x])
 			{
 
 				case 'w':
 				{
-					board[x][y] = std::make_unique<Empty>(false);
+					board[x][y] = std::make_unique<NonEatable>(false);
 					break;
 				}
 				case 'P':
 				{
+					// Initial Pacman position
 					pacman.set_position(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2);
-					board[x][y] = std::make_unique<Empty>();
+					board[x][y] = std::make_unique<NonEatable>();
 					break;
 				}
 				case ' ':
 				{
-					board[x][y] = std::make_unique<Empty>();
+					board[x][y] = std::make_unique<NonEatable>();
 					break;
 				}
 				case '.':
@@ -44,7 +47,7 @@ Board_cells Board::sketch_to_board(std::array<std::string, MAP_HEIGHT> sketch, P
 				}
                 default:
                 {
-					board[x][y] = std::make_unique<Empty>();
+					board[x][y] = std::make_unique<NonEatable>();
 				}					
 
 			}
@@ -71,9 +74,13 @@ void Board::draw()
 }
 
 void Board::interract(Pacman& pacman){
+
 	Coordinates<unsigned char> pacman_coord = pacman.get_position_on_map();
+	
 	Cell* pacman_cell = board[pacman_coord.x][pacman_coord.y].get();
+
 	Cell_type cell_type = pacman_cell->get_cell_type();
+
 	if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum)
 		{
 			auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
