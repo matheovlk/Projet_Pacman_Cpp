@@ -29,7 +29,3 @@ void Drawable::draw(const int x, const int y)
     SDL_Rect location = { x ,y+offset_, (sprite_coord_.w * scale_) , (sprite_coord_.h * scale_)};
     SDL_BlitScaled(sprites_, &sprite_coord_, win_surf_, &location);
 }
-
-void Drawable::set_sprite_coord(SDL_Rect sprite_coord) {
-    this->sprite_coord_ = sprite_coord;
-}

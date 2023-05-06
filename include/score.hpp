@@ -1,7 +1,7 @@
 #pragma once
 
 #include "drawable.hpp"
-#include "character.hpp"
+#include "character_sprites.hpp"
 
 class Score
 {
@@ -9,11 +9,12 @@ class Score
 
         Score(){};
 
-        Score(Character characters_sample);
+        Score(SDL_Surface* sprites, SDL_Surface* win_surf);
 
         void update_score(Cell_type& cell_type);
-
+    
+    private:
         int score;
         int high_score;
-        Character characters_sample;
+        Character_sprites characters_sample;
 };

@@ -43,8 +43,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
 
-	Character characters_sample{sprites, win_surf};
-
 	// SDL_Rect zero_sprite_loc = { 4, 53, 7, 7 };
 	// Drawable zero{sprites, win_surf, zero_sprite_loc, CHAR_SPRITE_SCALE, true};
 	// first.draw(0, 0);
@@ -54,7 +52,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	// fifth.draw(60, 0);
 	// sixth.draw(75, 0);
 
-	Score score{characters_sample};
+	Score score{sprites, win_surf};
 
 	while (!quit)
 	{

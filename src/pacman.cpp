@@ -5,24 +5,24 @@ Pacman::Pacman(SDL_Surface* sprites,SDL_Surface* win_surf)
     sprites_ = sprites;
     transparent_ = true;
     win_surf_ = win_surf;
-    sprite_coord_ = SDL_Rect {PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H};
+    sprite_coord_ = SDL_Rect {PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H};
     pacman_textures =
     {{Direction::RIGHT, 
-        {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
-        {PACMAN_RIGHT_1_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
-        {PACMAN_RIGHT_2_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H}}},
+        {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H},
+        {PACMAN_RIGHT_1_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H},
+        {PACMAN_RIGHT_2_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H}}},
     {Direction::LEFT, 
-        {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
-        {PACMAN_LEFT_1_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
-        {PACMAN_LEFT_2_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H}}},
+        {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H},
+        {PACMAN_LEFT_1_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H},
+        {PACMAN_LEFT_2_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H}}},
     {Direction::UP, 
-        {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
-        {PACMAN_UP_1_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
-        {PACMAN_UP_2_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H}}},
+        {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H},
+        {PACMAN_UP_1_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H},
+        {PACMAN_UP_2_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H}}},
     {Direction::DOWN, 
-        {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
-        {PACMAN_DOWN_1_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
-        {PACMAN_DOWN_2_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H}}}
+        {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H},
+        {PACMAN_DOWN_1_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H},
+        {PACMAN_DOWN_2_SPRITE_X, PACMAN_SPRITE_Y, Character_sprites_SPRITE_W, Character_sprites_SPRITE_H}}}
     
     };
     direction_ = Direction::RIGHT;

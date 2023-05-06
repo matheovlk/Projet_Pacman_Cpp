@@ -1,8 +1,7 @@
-#include "character.hpp"
-#include "constants.hpp"
+#include "character_sprites.hpp"
 #include <vector>
 
-Character::Character(SDL_Surface* sprites, SDL_Surface* win_surf)
+Character_sprites::Character_sprites(SDL_Surface* sprites, SDL_Surface* win_surf)
 {
     scale_ = CHAR_SPRITE_SCALE;
     transparent_ = true;
@@ -32,25 +31,14 @@ Character::Character(SDL_Surface* sprites, SDL_Surface* win_surf)
 
     this->sprites_ = sprites;
     this->win_surf_ = win_surf;
-
-    // zero_texture = number_textures.find(0)->second;
-    // one_texture = number_textures.find(1)->second;
-    // two_texture = number_textures.find(2)->second;
-    // three_texture = number_textures.find(3)->second;
-    // four_texture = number_textures.find(4)->second;
-    // five_texture = number_textures.find(5)->second;
-    // six_texture = number_textures.find(6)->second;
-    // seven_texture = number_textures.find(7)->second;
-    // eight_texture = number_textures.find(8)->second;
-    // nine_texture = number_textures.find(9)->second;
 }
 
-std::map<int, SDL_Rect> Character::get_number_textures()
+std::map<int, SDL_Rect> Character_sprites::get_number_textures()
 {
     return number_textures;
 }
 
-SDL_Rect Character::get_specific_texture(int specific_texture)
+void Character_sprites::set_specific_texture(int specific_texture)
 {
-    return number_textures.find(specific_texture)->second;
+    this->sprite_coord_ = number_textures.find(specific_texture)->second;
 }

@@ -12,6 +12,7 @@
 #include "board.hpp"
 #include "pacman.hpp"
 #include "cell.hpp"
+#include "character_sprites.hpp"
 
 class Game
 {

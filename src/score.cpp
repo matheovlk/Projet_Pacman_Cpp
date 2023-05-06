@@ -11,24 +11,23 @@ void Score::update_score(Cell_type& cell_type)
     if (score > high_score)
         high_score = score;
 
-
     // Print the new score on the map
     int score_to_print = score;
     //std::vector<std::vector<SDL_Rect>> score_texture;     push back
-    int i = 0;
+    int i = 5;
     do {
-        characters_sample.set_sprite_coord(characters_sample.get_specific_texture(score_to_print % 10));
-        characters_sample.draw(i*15, 0);
+        this->characters_sample.set_specific_texture(score_to_print % 10);
+        this->characters_sample.draw(i*15, 0);
         score_to_print = floor(score_to_print / 10);
-        i++;
+        i--;
     } while (score_to_print > 10);
 
-    // inverser le score   
+    // inverser le score
 }
 
-Score::Score(Character characters_sample)
+Score::Score(SDL_Surface* sprites, SDL_Surface* win_surf)
 {
-    score = 0;
-    high_score = 0;
-    this->characters_sample = characters_sample;        
+    this->score = 0;
+    this->high_score = 0;
+    this->characters_sample = Character_sprites{sprites, win_surf};
 }
