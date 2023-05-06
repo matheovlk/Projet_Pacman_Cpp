@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-#include "game.h"
+#include "game.hpp"
 
 class Window
 {

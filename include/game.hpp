@@ -9,7 +9,9 @@
 #include "constants.h"
 
 #include "drawable.h"
+#include "board.hpp"
 #include "pacman.h"
+#include "cell.hpp"
 
 class Game
 {
@@ -53,10 +55,12 @@ class Game
             SDL_Event event;
             bool quit = false;
 
-            std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> board{};
             Pacman pacman{sprites, win_surf};
 
-            board = sketch_to_board(map_sketch, pacman);
+
+            Board board{map_sketch, pacman, sprites, win_surf};
+
+
 
             Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
 
@@ -80,32 +84,33 @@ class Game
 
                 // Gestion du clavier     
 
-                
+                Board_cells& board_cells = board.get_board_cells();
                    
                 const Uint8 *keys = SDL_GetKeyboardState(NULL);
                 if (keys[SDL_SCANCODE_ESCAPE])
                     quit = true;
                 if (keys[SDL_SCANCODE_LEFT])
                 {
-                    pacman.set_direction(LEFT, board);
+                    pacman.set_direction(LEFT, board_cells);
                 }
                 if (keys[SDL_SCANCODE_RIGHT])
                 {
-                    pacman.set_direction(RIGHT, board);
+                    pacman.set_direction(RIGHT, board_cells);
                 }
                 if (keys[SDL_SCANCODE_UP])
                 {
-                    pacman.set_direction(UP, board);
+                    pacman.set_direction(UP, board_cells);
                 }
                 if (keys[SDL_SCANCODE_DOWN])
                 {
-                    pacman.set_direction(DOWN, board);
+                    pacman.set_direction(DOWN, board_cells);
                 }
                 map.draw(0, 0);
+                board.draw();
 
-                pacman.move(board);
+                pacman.move(board_cells);
+                board.interract(pacman);
                 pacman.draw(update_anim);
-
 
                 // AFFICHAGE
                 SDL_UpdateWindowSurface(pWindow); 
@@ -122,6 +127,5 @@ class Game
         bool get_update_animation_index();
         unsigned char game_animation_index = 0;
         SDL_Rect map_sprite_loc = { MAP_SPRITE_X ,MAP_SPRITE_Y, MAP_SPRITE_W, MAP_SPRITE_H }; // x,y, w,h (0,0) en haut a gauche
-        std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH> sketch_to_board(std::array<std::string, MAP_HEIGHT>&, Pacman&);
 
 };

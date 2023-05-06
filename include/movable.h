@@ -19,13 +19,13 @@ class Movable: public Drawable
     
         Movable(){};
 
-        void set_position(unsigned int x, unsigned int y);
+        void set_position(int x, int y);
 
         void draw(unsigned char update_anim);
 
     protected:
-        unsigned int x_;
-        unsigned int y_;
+        int x_;
+        int y_;
         Direction direction_;
         std::vector<SDL_Rect> animation_textures;
         unsigned char animation_index = 0;

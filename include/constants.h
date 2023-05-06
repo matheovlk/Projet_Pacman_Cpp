@@ -16,6 +16,16 @@ constexpr unsigned int MAP_SPRITE_W = MAP_WIDTH * 8;
 constexpr unsigned int MAP_SPRITE_H = MAP_HEIGHT * 8;
 constexpr unsigned char MAP_SPRITE_SCALE = 4;
 
+constexpr unsigned char PACGUM_SPRITE_SIZE = 2;
+constexpr unsigned int PACGUM_SPRITE_X = 4;
+constexpr unsigned int PACGUM_SPRITE_Y = 81;
+constexpr unsigned char GUM_SPRITE_SCALE = 4;
+
+constexpr unsigned char SUPERGUM_SPRITE_SIZE = 7;
+constexpr unsigned int SUPERGUM_SPRITE_X = 9;
+constexpr unsigned int SUPERGUM_SPRITE_Y = 79;
+
+
 
 constexpr unsigned int CHARACTER_SPRITE_W = 14;
 constexpr unsigned int CHARACTER_SPRITE_H = 14;
@@ -32,10 +42,17 @@ constexpr unsigned int PACMAN_DOWN_1_SPRITE_X = 110;
 constexpr unsigned int PACMAN_DOWN_2_SPRITE_X = 127;
 
 
-enum Cell
+// enum class over enum for safety
+enum class Cell_type
 {
 	Empty,
 	Wall,
+    Spawn,
     Gum,
     Super_gum,
 };
+
+template <typename T> struct Coordinates{ 
+    T x; 
+    T y; 
+}; 

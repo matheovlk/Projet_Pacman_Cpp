@@ -2,9 +2,12 @@
 
 #include <map>
 #include <iostream>
+#include <memory>
 #include "movable.h"
 #include "constants.h"
+#include "cell.hpp"
 
+using Board_cells = std::array<std::array<std::unique_ptr<Cell>, MAP_HEIGHT>, MAP_WIDTH>;
 
 
 class Pacman: public Movable
@@ -13,6 +16,7 @@ class Pacman: public Movable
         Pacman(SDL_Surface* sprites,SDL_Surface* win_surf)
         {
             sprites_ = sprites;
+            transparent_ = true;
             win_surf_ = win_surf;
             sprite_coord_ = SDL_Rect {PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H};
             pacman_textures =
@@ -42,9 +46,13 @@ class Pacman: public Movable
             transparent_ = true;
         }
 
-        void move(std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>&);
+        void move(Board_cells&);
 
-        void set_direction(Direction, std::array<std::array<Cell, MAP_HEIGHT>, MAP_WIDTH>&);
+        void set_direction(Direction, Board_cells&);
+
+
+
+        Coordinates<unsigned char> get_position_on_map();
 
         private:
 

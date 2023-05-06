@@ -14,11 +14,19 @@ target_sources(${PROJECT_NAME}
 	src/drawable.cpp
 	src/movable.cpp
 	src/pacman.cpp
+	src/board.cpp
+	src/cells/cell.cpp
+	src/cells/empty.cpp
+	src/cells/pacgum.cpp
+	src/cells/superPacgum.cpp
+	src/cells/eatable.cpp
+
 	)
 target_include_directories(${PROJECT_NAME}
 	PRIVATE
 	${SDL2_INCLUDE_DIRS}
 	include
+	include/cells
 	)
 target_compile_definitions(${PROJECT_NAME} PRIVATE "SDL_MAIN_HANDLED")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
