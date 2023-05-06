@@ -21,6 +21,8 @@ constexpr unsigned int MAP_SPRITE_W = MAP_WIDTH * 8;
 constexpr unsigned int MAP_SPRITE_H = MAP_HEIGHT * 8;
 constexpr unsigned char MAP_SPRITE_SCALE = 4;
 
+constexpr unsigned char CHAR_SPRITE_SCALE = 2;
+
 constexpr unsigned char PACGUM_SPRITE_SIZE = 2;
 constexpr unsigned int PACGUM_SPRITE_X = 4;
 constexpr unsigned int PACGUM_SPRITE_Y = 81;
@@ -30,10 +32,12 @@ constexpr unsigned char SUPERGUM_SPRITE_SIZE = 7;
 constexpr unsigned int SUPERGUM_SPRITE_X = 9;
 constexpr unsigned int SUPERGUM_SPRITE_Y = 79;
 
-
-
+constexpr unsigned int CHARACTER_SPRITE_Y = 53;
 constexpr unsigned int CHARACTER_SPRITE_W = 14;
 constexpr unsigned int CHARACTER_SPRITE_H = 14;
+
+constexpr unsigned int NUMBER_SPRITE_W = 7;
+constexpr unsigned int NUMBER_SPRITE_H = 7;
 
 constexpr unsigned int PACMAN_SPRITE_Y = 90;
 constexpr unsigned int PACMAN_ROUND_SPRITE_X = 4;

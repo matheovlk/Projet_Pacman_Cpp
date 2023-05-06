@@ -1,7 +1,8 @@
 #include "score.hpp"
 #include <vector>
+#include <iostream>
 
-void Score::update_score(Cell_type cell_type)
+void Score::update_score(Cell_type& cell_type)
 {
     if (cell_type == Cell_type::Gum)
         score += 10;
@@ -13,31 +14,21 @@ void Score::update_score(Cell_type cell_type)
 
     // Print the new score on the map
     int score_to_print = score;
-    std::vector<SDL_Rect> score_texture;
+    //std::vector<std::vector<SDL_Rect>> score_texture;     push back
+    int i = 0;
     do {
-        switch (score_to_print % 10)
-        {
-        case 0:
-            // score_texture.push_back(ScoreCoords.ZERO);
-            break;
-        
-        default:
-            break;
-        }
+        characters_sample.set_sprite_coord(characters_sample.get_specific_texture(score_to_print % 10));
+        characters_sample.draw(i*15, 0);
         score_to_print = floor(score_to_print / 10);
+        i++;
     } while (score_to_print > 10);
 
-    // inverser le score
+    // inverser le score   
+}
 
-
-
-    Drawable zero{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE};
-
-
-    // 0: 4-11
-    //    53-60
-
-    
-
-    
+Score::Score(Character characters_sample)
+{
+    score = 0;
+    high_score = 0;
+    this->characters_sample = characters_sample;        
 }

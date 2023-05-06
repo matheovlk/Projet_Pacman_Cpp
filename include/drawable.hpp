@@ -12,6 +12,8 @@ class Drawable
 
         void draw(int x, int y);
 
+        void set_sprite_coord(SDL_Rect sprite_coord);
+
     protected:
         Drawable(){};
         SDL_Rect sprite_coord_;

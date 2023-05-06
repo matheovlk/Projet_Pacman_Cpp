@@ -12,11 +12,11 @@ using Board_cells = std::array<std::array<std::unique_ptr<Cell>, MAP_HEIGHT>, MA
 class Pacman: public Movable
 {
     public:
-        Pacman(SDL_Surface* sprites,SDL_Surface* win_surf);
+        Pacman(SDL_Surface* sprites, SDL_Surface* win_surf);
 
         void move(Board_cells&);
 
-        void set_direction(Direction ,const Board_cells&);
+        void set_direction(Direction, const Board_cells&);
 
         Coordinates<unsigned char> get_position_on_map();
 
