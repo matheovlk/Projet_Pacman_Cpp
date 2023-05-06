@@ -14,7 +14,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	"w.www.w.wwwww.w.www.w",
 	"w.....w...w...w.....w",
 	"wwwww.www w www.wwwww",
-	"wwwww.w       w.wwwww",
+	"wwwww.w   R   w.wwwww",
 	"wwwww.w wwwww w.wwwww",
 	"wwwww.w wwwww w.wwwww",
 	"     .  wwwww  .     ",
@@ -34,11 +34,14 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	};
 
 	SDL_Event event;
+	
 	bool quit = false;
 
 	Pacman pacman{sprites, win_surf};
 
-	Board board{map_sketch, pacman, sprites, win_surf};
+	Ghost ghost{sprites, win_surf};
+
+	Board board{map_sketch, pacman, ghost, sprites, win_surf};
 
 	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
 
@@ -89,10 +92,12 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		board.draw();
 
 		pacman.move(board_cells);
+		ghost.move(board_cells);
 
 		board.interract(pacman);
 
 		pacman.draw(update_anim);
+		ghost.draw(update_anim);
 
 		// AFFICHAGE
 		SDL_UpdateWindowSurface(pWindow); 

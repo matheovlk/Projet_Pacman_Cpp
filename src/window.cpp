@@ -10,7 +10,7 @@ int Window::init(SDL_Window* &pWindow, SDL_Surface* &win_surf, SDL_Surface* &spr
     win_surf = SDL_GetWindowSurface(pWindow);
     
     // fond de la fenetre  
-    Uint32 color = SDL_MapRGB(win_surf->format,120,0,100); 
+    Uint32 color = SDL_MapRGB(win_surf->format,120,0,100);
     SDL_FillRect(win_surf,NULL, color);
 
     sprites = SDL_LoadBMP("./pacman_sprites.bmp");

@@ -1,11 +1,7 @@
 #include "board.hpp"
-#include "pacgum.hpp"
-#include "superPacgum.hpp"
-#include "constants.hpp"
-#include "nonEatable.hpp"
-#include <iostream>
 
-Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, SDL_Surface* sprites,SDL_Surface* win_surf)
+
+Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, Ghost& ghost, SDL_Surface* sprites,SDL_Surface* win_surf)
 {
 	Board_cells board;
 
@@ -27,6 +23,13 @@ Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> ske
 				{
 					// Initial Pacman position
 					pacman.set_position(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2);
+					board[x][y] = std::make_unique<NonEatable>();
+					break;
+				}
+				case 'R':
+				{
+					// Initial Pacman position
+					ghost.set_position(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2);
 					board[x][y] = std::make_unique<NonEatable>();
 					break;
 				}
@@ -75,7 +78,7 @@ void Board::draw()
 
 void Board::interract(Pacman& pacman){
 
-	Coordinates<unsigned char> pacman_coord = pacman.get_position_on_map();
+	Coordinates<unsigned char> pacman_coord = pacman.get_position_on_board();
 	
 	Cell* pacman_cell = board[pacman_coord.x][pacman_coord.y].get();
 

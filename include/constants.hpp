@@ -1,6 +1,6 @@
 #pragma once
 
-constexpr float GAME_SPEED = 1;
+constexpr float GAME_SPEED = 10;
 
 constexpr unsigned char MAP_WIDTH = 21;
 constexpr unsigned char MAP_HEIGHT = 27;
@@ -24,8 +24,6 @@ constexpr unsigned char SUPERGUM_SPRITE_SIZE = 7;
 constexpr unsigned int SUPERGUM_SPRITE_X = 9;
 constexpr unsigned int SUPERGUM_SPRITE_Y = 79;
 
-
-
 constexpr unsigned int CHARACTER_SPRITE_W = 14;
 constexpr unsigned int CHARACTER_SPRITE_H = 14;
 
@@ -40,6 +38,19 @@ constexpr unsigned int PACMAN_UP_2_SPRITE_X = 93;
 constexpr unsigned int PACMAN_DOWN_1_SPRITE_X = 110;
 constexpr unsigned int PACMAN_DOWN_2_SPRITE_X = 127;
 
+constexpr unsigned int BLINKY_SPRITE_Y = 124;
+constexpr unsigned int GHOST_RIGHT_1_SPRITE_X = 4;
+constexpr unsigned int GHOST_RIGHT_2_SPRITE_X = GHOST_RIGHT_1_SPRITE_X + 17;
+constexpr unsigned int GHOST_LEFT_1_SPRITE_X = GHOST_RIGHT_2_SPRITE_X + 17;
+constexpr unsigned int GHOST_LEFT_2_SPRITE_X = GHOST_LEFT_1_SPRITE_X + 17;
+constexpr unsigned int GHOST_UP_1_SPRITE_X = GHOST_LEFT_2_SPRITE_X + 17;
+constexpr unsigned int GHOST_UP_2_SPRITE_X = GHOST_UP_1_SPRITE_X + 17;
+constexpr unsigned int GHOST_DOWN_1_SPRITE_X = GHOST_UP_2_SPRITE_X + 17;
+constexpr unsigned int GHOST_DOWN_2_SPRITE_X = GHOST_DOWN_1_SPRITE_X + 17;
+
+
+
+
 
 // enum class is more precise than enum, avoid name conflict
 enum class Cell_type
@@ -53,5 +64,5 @@ enum class Cell_type
 
 template <typename T> struct Coordinates{ 
     T x; 
-    T y; 
+    T y;
 }; 

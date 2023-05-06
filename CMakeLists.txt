@@ -12,8 +12,9 @@ target_sources(${PROJECT_NAME}
 	src/window.cpp
 	src/game.cpp
 	src/drawable.cpp
-	src/movable.cpp
-	src/pacman.cpp
+	src/movable/movable.cpp
+	src/movable/pacman.cpp
+	src/movable/ghost.cpp
 	src/board.cpp
 	src/cells/cell.cpp
 	src/cells/nonEatable.cpp
@@ -27,6 +28,7 @@ target_include_directories(${PROJECT_NAME}
 	${SDL2_INCLUDE_DIRS}
 	include
 	include/cells
+	include/movable
 	)
 target_compile_definitions(${PROJECT_NAME} PRIVATE "SDL_MAIN_HANDLED")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})

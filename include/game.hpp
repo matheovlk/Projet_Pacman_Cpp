@@ -11,6 +11,7 @@
 #include "drawable.hpp"
 #include "board.hpp"
 #include "pacman.hpp"
+#include "ghost.hpp"
 #include "cell.hpp"
 
 class Game

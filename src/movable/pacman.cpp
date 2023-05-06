@@ -6,7 +6,7 @@ Pacman::Pacman(SDL_Surface* sprites,SDL_Surface* win_surf)
     transparent_ = true;
     win_surf_ = win_surf;
     sprite_coord_ = SDL_Rect {PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H};
-    pacman_textures =
+    animation_textures =
     {{Direction::RIGHT, 
         {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
         {PACMAN_RIGHT_1_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
@@ -23,11 +23,10 @@ Pacman::Pacman(SDL_Surface* sprites,SDL_Surface* win_surf)
         {{PACMAN_ROUND_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
         {PACMAN_DOWN_1_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
         {PACMAN_DOWN_2_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H}}}
-    
     };
-    direction_ = Direction::RIGHT;
-    animation_textures = pacman_textures.find(direction_)->second;
-    sprite_coord_ = animation_textures[0];
+    direction_ = Direction::LEFT;
+    current_texture = animation_textures.find(direction_)->second;
+    sprite_coord_ = current_texture[0];
     nb_anim_frames = 3;
     scale_ = BASIC_SPRITE_SCALE;
     transparent_ = true;
@@ -49,7 +48,7 @@ void Pacman::set_direction(const Direction direction,const Board_cells& board)
             )
             {
                 direction_ = Direction::LEFT;
-                animation_textures = pacman_textures.find(Direction::LEFT)->second;
+                current_texture = animation_textures.find(Direction::LEFT)->second;
 
             }
             break;
@@ -63,7 +62,7 @@ void Pacman::set_direction(const Direction direction,const Board_cells& board)
             )
             {
                 direction_ = Direction::RIGHT;
-                animation_textures = pacman_textures.find(Direction::RIGHT)->second;
+                current_texture = animation_textures.find(Direction::RIGHT)->second;
             }
             break;
         }
@@ -76,7 +75,7 @@ void Pacman::set_direction(const Direction direction,const Board_cells& board)
             )
             {
                 direction_ = Direction::UP;
-                animation_textures = pacman_textures.find(Direction::UP)->second;
+                current_texture = animation_textures.find(Direction::UP)->second;
             }
             break;
         }
@@ -89,76 +88,14 @@ void Pacman::set_direction(const Direction direction,const Board_cells& board)
             )
             {
                 direction_ = Direction::DOWN;
-                animation_textures = pacman_textures.find(Direction::DOWN)->second;
+                current_texture = animation_textures.find(Direction::DOWN)->second;
             }
             break;
         }
     }
 }
 
-void Pacman::move(Board_cells& board)
-{
-    const unsigned char half_cell_size = CELL_SIZE / 2;
-
-    switch(direction_)
-    {
-        case Direction::LEFT:
-        {
-            // if in left tunnel
-            if (position.x == 0)
-                position.x = MAP_WIDTH * CELL_SIZE;
-            //if near left tunnel
-            else if (position.x <= half_cell_size)
-                position.x --;
-            else if
-            (
-                board[floor((position.x - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))][floor(position.y / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
-                position.y % CELL_SIZE == half_cell_size
-            )
-                position.x --;
-            break;
-        }
-        case Direction::RIGHT:
-        {
-            // if in left tunnel
-            if (position.x == MAP_WIDTH * CELL_SIZE)
-                position.x = 0;
-            // near left tunnel
-            else if (floor(position.x / CELL_SIZE + 1) == MAP_WIDTH && position.x + half_cell_size > MAP_WIDTH)
-                position.x ++;
-            else if
-            (
-                board[floor((position.x + (half_cell_size)) / static_cast<unsigned int>(CELL_SIZE))][floor(position.y / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
-                position.y % CELL_SIZE == half_cell_size
-            )
-                position.x ++;
-            break;
-        }
-        case Direction::UP:
-        {
-            if
-            (
-                board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
-                position.x % CELL_SIZE == half_cell_size
-            )
-                position.y --;
-            break;
-        }
-        case Direction::DOWN:
-        {
-            if
-            (
-                board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y + (half_cell_size)) / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
-                position.x % CELL_SIZE == half_cell_size
-            )
-                position.y ++;
-            break;
-        }
-    }
-
-}
-
-Coordinates<unsigned char> Pacman::get_position_on_map()
+Coordinates<unsigned char> Pacman::get_position_on_board()
 {
 
     unsigned char x_on_board = position.x / CELL_SIZE;
