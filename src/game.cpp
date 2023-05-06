@@ -9,14 +9,14 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	"w.www.www.w.www.www.w",
 	"wowww.www.w.www.wwwow",
 	"w.www.www.w.www.www.w",
-	"w...................w",
+	"w.......234.........w",
 	"w.www.w.wwwww.w.www.w",
 	"w.www.w.wwwww.w.www.w",
 	"w.....w...w...w.....w",
 	"wwwww.www w www.wwwww",
-	"wwwww.w   R   w.wwwww",
+	"wwwww.w   1   w.wwwww",
 	"wwwww.w wwwww w.wwwww",
-	"wwwww.w wwwww w.wwwww",
+	"wwwww.w w   w w.wwwww",
 	"     .  wwwww  .     ",
 	"wwwww.w wwwww w.wwwww",
 	"wwwww.w       w.wwwww",
@@ -39,9 +39,19 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	Pacman pacman{sprites, win_surf};
 
-	Ghost ghost{sprites, win_surf};
+	Blinky blinky{sprites, win_surf};
+	Inky inky{sprites, win_surf};
+	Pinky pinky{sprites, win_surf};
+	Clyde clyde{sprites, win_surf};
+	std::vector<Ghost*> ghosts; //= {Blinky{sprites, win_surf},Blinky{sprites, win_surf},Blinky{sprites, win_surf},Blinky{sprites, win_surf}};
 
-	Board board{map_sketch, pacman, ghost, sprites, win_surf};
+    ghosts.push_back((Ghost *)&blinky);
+	ghosts.push_back((Ghost *)&inky);
+    ghosts.push_back((Ghost *)&pinky);
+    ghosts.push_back((Ghost *)&clyde);
+
+	// std::vector<Ghost> ghosts = {Blinky{sprites, win_surf}, Inky{sprites, win_surf}, Pinky{sprites, win_surf}, Clyde{sprites, win_surf}};
+	Board board{map_sketch, pacman, ghosts, sprites, win_surf};
 
 	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
 
@@ -92,12 +102,32 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		board.draw();
 
 		pacman.move(board_cells);
-		ghost.move(board_cells);
 
 		board.interract(pacman);
 
+		// std:cout << 
+		for (Ghost *ghost : ghosts)
+		{
+			ghost->move(board_cells);
+			ghost->draw(update_anim);
+		}
+		// ghosts[0]
+		// std::cout << "a";
+		// ghosts[1]->move(board_cells);
+		// ghosts[1]->draw(update_anim);	
+		// ghosts[2]->move(board_cells);
+		// ghosts[2]->draw(update_anim);	
+		// ghosts[3]->move(board_cells);
+		// ghosts[3]->draw(update_anim);	
+		// ghosts[1].move(board_cells);
+
+		// ghosts[1].draw(update_anim);		ghosts[2].move(board_cells);
+
+		// ghosts[2].draw(update_anim);		ghosts[3].move(board_cells);
+
+		// ghosts[3].draw(update_anim);
+
 		pacman.draw(update_anim);
-		ghost.draw(update_anim);
 
 		// AFFICHAGE
 		SDL_UpdateWindowSurface(pWindow); 

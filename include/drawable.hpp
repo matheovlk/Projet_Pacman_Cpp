@@ -10,6 +10,8 @@ class Drawable
 
         Drawable(SDL_Surface* sprites, SDL_Surface* win_surf, const SDL_Rect& sprite_coord, unsigned char scale = BASIC_SPRITE_SCALE, bool transparent = true);
 
+        Drawable(SDL_Surface* sprites, SDL_Surface* win_surf);
+        
         void draw(int x, int y);
 
     protected:

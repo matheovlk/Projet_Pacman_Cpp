@@ -13,6 +13,13 @@ Drawable::Drawable(SDL_Surface* sprites, SDL_Surface* win_surf, const SDL_Rect& 
     transparent_ = transparent;
 }
 
+Drawable::Drawable(SDL_Surface* sprites, SDL_Surface* win_surf)
+{
+    sprites_ = sprites;
+    win_surf_ = win_surf;
+}
+
+
 void Drawable::draw(const int x,const int y)
 {
     if (transparent_)

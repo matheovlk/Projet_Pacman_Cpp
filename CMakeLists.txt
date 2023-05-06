@@ -15,6 +15,10 @@ target_sources(${PROJECT_NAME}
 	src/movable/movable.cpp
 	src/movable/pacman.cpp
 	src/movable/ghost.cpp
+	src/movable/inky.cpp
+	src/movable/blinky.cpp
+	src/movable/pinky.cpp
+	src/movable/clyde.cpp
 	src/board.cpp
 	src/cells/cell.cpp
 	src/cells/nonEatable.cpp

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <vector>
 #include <string>
 #include <SDL2/SDL.h>
 #include <iostream>
@@ -11,7 +12,10 @@
 #include "drawable.hpp"
 #include "board.hpp"
 #include "pacman.hpp"
-#include "ghost.hpp"
+#include "inky.hpp"
+#include "pinky.hpp"
+#include "blinky.hpp"
+#include "clyde.hpp"
 #include "cell.hpp"
 
 class Game

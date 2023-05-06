@@ -14,9 +14,7 @@ class Board
 {
     public:
         
-        Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, Ghost& ghost, SDL_Surface* sprites,SDL_Surface* win_surf){
-            board = sketch_to_board(map_sketch, pacman, ghost, sprites, win_surf);
-        }
+        Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, std::vector<Ghost *> ghosts, SDL_Surface* sprites,SDL_Surface* win_surf);
 
         Board_cells& get_board_cells(){
             return board;
@@ -27,6 +25,6 @@ class Board
         void draw();
     private:
         Board_cells board;
-        Board_cells sketch_to_board(const std::array<std::string, MAP_HEIGHT>, Pacman&, Ghost& ghost, SDL_Surface* sprites,SDL_Surface* win_surf);
+        Board_cells sketch_to_board(const std::array<std::string, MAP_HEIGHT>, Pacman&, std::vector<Ghost *> ghosts, SDL_Surface* sprites,SDL_Surface* win_surf);
 
 };

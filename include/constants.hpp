@@ -39,6 +39,10 @@ constexpr unsigned int PACMAN_DOWN_1_SPRITE_X = 110;
 constexpr unsigned int PACMAN_DOWN_2_SPRITE_X = 127;
 
 constexpr unsigned int BLINKY_SPRITE_Y = 124;
+constexpr unsigned int PINKY_SPRITE_Y = 142;
+constexpr unsigned int INKY_SPRITE_Y = 160;
+constexpr unsigned int CLYDE_SPRITE_Y = 178;
+
 constexpr unsigned int GHOST_RIGHT_1_SPRITE_X = 4;
 constexpr unsigned int GHOST_RIGHT_2_SPRITE_X = GHOST_RIGHT_1_SPRITE_X + 17;
 constexpr unsigned int GHOST_LEFT_1_SPRITE_X = GHOST_RIGHT_2_SPRITE_X + 17;
@@ -65,4 +69,4 @@ enum class Cell_type
 template <typename T> struct Coordinates{ 
     T x; 
     T y;
-}; 
+};

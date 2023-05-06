@@ -1,7 +1,10 @@
 #include "board.hpp"
 
+Board::Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, std::vector<Ghost *> ghosts, SDL_Surface* sprites,SDL_Surface* win_surf){
+	board = sketch_to_board(map_sketch, pacman, ghosts, sprites, win_surf);
+}
 
-Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, Ghost& ghost, SDL_Surface* sprites,SDL_Surface* win_surf)
+Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, std::vector<Ghost *> ghosts, SDL_Surface* sprites,SDL_Surface* win_surf)
 {
 	Board_cells board;
 
@@ -26,10 +29,31 @@ Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> ske
 					board[x][y] = std::make_unique<NonEatable>();
 					break;
 				}
-				case 'R':
+				case '1':
 				{
-					// Initial Pacman position
-					ghost.set_position(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2);
+					// Initial Blinky position
+					ghosts[0]->set_position(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2);
+					board[x][y] = std::make_unique<NonEatable>();
+					break;
+				}				
+				case '2':
+				{
+					// Initial Inky position
+					ghosts[1]->set_position(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2);
+					board[x][y] = std::make_unique<NonEatable>();
+					break;
+				}				
+				case '3':
+				{
+					// Initial Pinky position
+					ghosts[2]->set_position(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2);
+					board[x][y] = std::make_unique<NonEatable>();
+					break;
+				}				
+				case '4':
+				{
+					// Initial Clyde position
+					ghosts[3]->set_position(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2);
 					board[x][y] = std::make_unique<NonEatable>();
 					break;
 				}
