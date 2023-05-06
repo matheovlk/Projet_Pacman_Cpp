@@ -1,6 +1,6 @@
 #pragma once
 
-constexpr float GAME_SPEED = 1;
+constexpr float GAME_SPEED = 100;
 
 constexpr unsigned char MAP_WIDTH = 21;
 constexpr unsigned char MAP_HEIGHT = 27;
@@ -8,6 +8,12 @@ constexpr unsigned char MAP_HEIGHT = 27;
 constexpr unsigned char CELL_SIZE = 32;
 //x y  w h
 constexpr unsigned char BASIC_SPRITE_SCALE = 2;
+
+// offset to shift some elements on the map
+constexpr unsigned char OFFSET = 75;
+
+constexpr unsigned int WINDOW_WIDTH = MAP_WIDTH * CELL_SIZE;
+constexpr unsigned int WINDOW_HEIGHT = 1200;
 
 constexpr unsigned int MAP_SPRITE_X = 369;
 constexpr unsigned int MAP_SPRITE_Y = 3;

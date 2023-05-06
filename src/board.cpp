@@ -3,6 +3,7 @@
 #include "superPacgum.hpp"
 #include "constants.hpp"
 #include "nonEatable.hpp"
+#include "score.hpp"
 #include <iostream>
 
 Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, SDL_Surface* sprites,SDL_Surface* win_surf)
@@ -73,7 +74,7 @@ void Board::draw()
     }
 }
 
-void Board::interract(Pacman& pacman){
+void Board::interract(Pacman& pacman, Score& score){
 
 	Coordinates<unsigned char> pacman_coord = pacman.get_position_on_map();
 	
@@ -84,6 +85,9 @@ void Board::interract(Pacman& pacman){
 	if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum)
 		{
 			auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
+			if (eatable_ptr->get_eaten() == false) {
+				score.update_score(cell_type);
+			}
 			eatable_ptr->set_eaten();
 		}
 

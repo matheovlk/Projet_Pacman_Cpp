@@ -1,5 +1,6 @@
-
+#include "constants.hpp"
 #include "game.hpp"
+#include "score.hpp"
 
 void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
 {
@@ -40,8 +41,9 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	Board board{map_sketch, pacman, sprites, win_surf};
 
-	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
+	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
 
+	Score score{};
 
 	while (!quit)
 	{
@@ -90,7 +92,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 		pacman.move(board_cells);
 
-		board.interract(pacman);
+		board.interract(pacman, score);
 
 		pacman.draw(update_anim);
 

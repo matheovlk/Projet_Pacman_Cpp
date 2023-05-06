@@ -1,6 +1,7 @@
 #pragma once
 #include "pacman.hpp"
 #include "constants.hpp"
+#include "score.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -18,7 +19,7 @@ class Board
             return board;
         }
 
-        void interract(Pacman& pacman);
+        void interract(Pacman& pacman, Score& score);
 
         void draw();
     private:

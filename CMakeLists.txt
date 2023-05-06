@@ -10,6 +10,7 @@ target_sources(${PROJECT_NAME}
 	PRIVATE
 	src/main.cpp
 	src/window.cpp
+	src/score.cpp
 	src/game.cpp
 	src/drawable.cpp
 	src/movable.cpp

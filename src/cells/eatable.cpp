@@ -1,9 +1,11 @@
 #include "eatable.hpp"
+#include "constants.hpp"
 
 
 Eatable::Eatable()
 {
     scale_ = MAP_SPRITE_SCALE;
+    offset_ = OFFSET;
 }
 
 void Eatable::draw_itself()
@@ -21,6 +23,11 @@ void Eatable::restart()
 void Eatable::set_eaten()
 {
     eaten = true;
+}
+
+bool Eatable::get_eaten()
+{
+    return eaten;
 }
 
 unsigned int Eatable::board_position_to_xy(const unsigned char pos_on_board,const unsigned char sprite_size)

@@ -14,6 +14,8 @@ class Eatable: public Cell, public Drawable
 
         void set_eaten();
 
+        bool get_eaten();
+
     private:
 
         bool eaten = false;
