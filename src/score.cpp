@@ -14,9 +14,9 @@ Score::Score(SDL_Surface* sprites, SDL_Surface* win_surf)
     this->high_score = 0;
     this->win_surf = win_surf;
     this->sprites = sprites;
-    high_score_word = Word(sprites, win_surf);
-	score_sprite = Word(sprites, win_surf);
-	high_score_sprite = Word(sprites, win_surf);
+    high_score_word = Word{sprites, win_surf};
+	score_sprite = {sprites, win_surf};
+	high_score_sprite = {sprites, win_surf};
 }
 
 int Score::get_score()
