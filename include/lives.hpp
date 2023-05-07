@@ -41,7 +41,7 @@ class Lives
         }
 
     private:
-        unsigned char lives = 2;
+        unsigned char lives = 4;
         SDL_Rect life_sprite = {PACMAN_LEFT_1_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H};
         SDL_Rect empty_sprite = {160, 100, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H};
 

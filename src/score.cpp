@@ -18,6 +18,11 @@ int Score::get_high_score()
     return this->high_score;
 }
 
+void Score::reset_score()
+{
+    this->score = 0;
+}
+
 
 void Score::update_score(Cell_type& cell_type)
 {

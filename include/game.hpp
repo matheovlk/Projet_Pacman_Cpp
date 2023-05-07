@@ -29,9 +29,11 @@ class Game
         Game(){};
 
         void init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites);
-        void loop();
-        void start_game();
-        void new_life();
+        // void game_handler(SDL_Window*);
+        void start_game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites);
+        void new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites);
+        void loop(SDL_Window*);
+
 
     private:
         bool update_anim = false;
