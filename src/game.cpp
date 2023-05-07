@@ -1,7 +1,5 @@
 
 #include "game.hpp"
-#include "score.hpp"
-#include "fruit.hpp"
 
 
 void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
@@ -48,8 +46,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	auto pinky = std::make_unique<Pinky>(sprites, win_surf);
 	auto clyde = std::make_unique<Clyde>(sprites, win_surf);
 
-	//Fruit fruit = std::make_unique<Fruit>(sprites, win_surf);
-
 	// Le std::move dans le code précédent sert à indiquer que le pointeur unique red_ghost peut être déplacé vers l’élément du vecteur,
 	// c’est-à-dire que la propriété du pointeur est transférée du red_ghost au vecteur.
 	// Cela permet d’éviter de copier le pointeur unique, ce qui n’est pas possible car il ne peut y avoir qu’un seul propriétaire du pointeur.
@@ -64,16 +60,13 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	map.draw(0, 0);
 
-	Score score{};
+	
 
 	Lives lives{sprites, win_surf};
 
-	Word high_score_word{sprites, win_surf};
-	high_score_word.set_word("HIGH SCORE");
-	high_score_word.draw(HIGH_SCORE_BASIC_OFFSET, 10);
+	Score score{sprites, win_surf};
 
-	Word score_sprite{sprites, win_surf};
-	Word high_score_sprite{sprites, win_surf};
+	score.print_basic_scores();
 
 	
   
@@ -96,7 +89,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	while (!quit)
 	{
-		//std::cout << nb_eaten_gum << std::endl;
 		Uint64 start = SDL_GetPerformanceCounter();
 
 		SDL_Event event;
@@ -150,17 +142,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 			pacman.set_direction(Direction::DOWN, board_cells);
 		}
 
-		int sc = score.get_score();
-		score_sprite.set_word(sc);
-		// We want the last number of the score to be always on the same place.
-		// When the score length increments (90 to 100 for ex), the zero stays at the same place
-		// The bigger the score is, the smaller the offset is
-		score_sprite.draw(SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(sc).length()), 30);
-
-		int high_sc = score.get_high_score();
-		score_sprite.set_word(high_sc);
-		// Same logic as the score
-		score_sprite.draw(HIGH_SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(high_sc).length()-4), 30);
+		score.print_scores();
 
 		map.draw(0, 0);
 
