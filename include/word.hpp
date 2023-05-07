@@ -15,58 +15,15 @@ class Word: public Drawable
     public :
         Word(){};
         
-        Word(SDL_Surface* sprites, SDL_Surface* win_surf): Drawable(sprites, win_surf, WORD_OFFSET){transparent_ = false;};
+        Word(SDL_Surface* sprites, SDL_Surface* win_surf): Drawable(sprites, win_surf, WORD_OFFSET) {this->transparent_ = false;};
         
         // for strings
-        void set_word(std::string word)
-        {
-            std::vector<SDL_Rect> word_sprites;
+        void set_word(std::string word);
 
-            for (char c : word)
-            {
-                c = toupper(c);
-                if (c >= 'A' && c <= 'Z')
-                {
-                    int index = c - 'A';
-                    word_sprites.push_back(letter_sprites[index]);
-                }
-                if (c == ' ')
-                {
-                    word_sprites.push_back(space_sprite);  
-                }
-                if (c == '!')
-                {
-                    word_sprites.push_back(exclamation_sprite);
-
-                }
-                if (c >= '0' && c <= '9')
-                {
-                    int index = c - '0';
-                    word_sprites.push_back(number_sprites[index]);
-                }
-            }
-            
-            this->word_sprites = word_sprites;
-        };
-
-        void draw(int x, int y)
-        {
-            int current_x = x;
-
-            for (auto& sprite : word_sprites)
-            {
-                sprite_coord_ = sprite;
-                Drawable::draw(current_x, y);
-                current_x += CHARACTER_SIZE * BASIC_SPRITE_SCALE;
-            }
-        };
+        void draw(int x, int y);
     
-    // for ints
-    void set_word(int number)
-    {
-        std::string word = std::to_string(number);
-        set_word(word);
-    }
+        // for ints
+        void set_word(int number);
 
     private :
         std::vector<SDL_Rect> word_sprites;
