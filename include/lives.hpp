@@ -11,36 +11,12 @@ class Lives
 
         Lives(){};
 
-        Lives(SDL_Surface* sprites,SDL_Surface* win_surf)
-        {
-            for (int i = 0; i < this->lives; i++)
-            {
-                this->lives_drawables.push_back(Drawable{sprites, win_surf, life_sprite, BASIC_SPRITE_SCALE, false, FOOTER_OFFSET});
-            } 
-        };
+        Lives(SDL_Surface* sprites,SDL_Surface* win_surf);
 
-        void remove_life()
-        {
-            this->lives --;
-            lives_drawables[lives].set_sprite(empty_sprite);
-        };
-        
-        void restore_lives(){
-            this->lives = max_lives;
-            for (int i = 0; i < this->lives; i++)
-            {
-                this->lives_drawables[i].set_sprite(life_sprite);
-            }
-        };
-
-        bool game_over(){return lives <= 0;}
-
-        void draw_lives()
-        {
-            for (int i = 0; i < lives_drawables.size(); i++) {
-                lives_drawables[i].draw(i * CHARACTER_SPRITE_W * BASIC_SPRITE_SCALE + i * 10 + 50, 10 );
-            }
-        }
+        void remove_life();        
+        void restore_lives();
+        bool game_over();
+        void draw_lives();
 
     private:
         unsigned char max_lives = 4;

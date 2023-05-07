@@ -5,19 +5,11 @@
 class Door: public NonEatable
 {
     public:
-        Door(){
-            pac_can_pass = false;
-            cell_type = Cell_type::Door;
-        };
+        Door();
 
-    unsigned int get_counter(){
-        return counter;
-    }
+    unsigned int get_counter();
 
-    void increment_counter()
-    {
-        counter++;
-    }
+    void increment_counter();
 
     private:
         unsigned int counter = 0;
