@@ -60,3 +60,15 @@ void Score::update_score(Cell_type& cell_type)
     if (score > high_score)
         this->high_score = score;
 }
+
+void Score::reset_score()
+{
+    this->score = 0;
+    score_sprite.set_word("      ");
+    this->score_sprite.draw(SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(999999).length()), 30);
+    // We want the last number of the score to be always on the same place.
+    // When the score length increments (90 to 100 for ex), the zero stays at the same place
+    // The bigger the score is, the smaller the offset is
+    score_sprite.set_word(this->score);
+    this->score_sprite.draw(SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(this->score).length()), 30);
+}

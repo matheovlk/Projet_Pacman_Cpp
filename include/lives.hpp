@@ -23,12 +23,14 @@ class Lives
         };
         
         void restore_lives(){
-            this->lives = 4;
+            this->lives = 2;
             for (int i = 0; i < this->lives; i++)
             {
                 this->lives_drawables[i].set_sprite(life_sprite);
-            } 
+            }
         };
+
+        bool game_over(){return lives <= 0;}
 
         void draw_lives()
         {

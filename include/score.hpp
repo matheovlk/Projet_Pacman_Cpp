@@ -16,6 +16,7 @@ class Score
         void print_basic_scores();
         int get_score();
         int get_high_score();
+        void reset_score();
     
     private:
         int score;

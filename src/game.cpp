@@ -86,7 +86,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	SDL_UpdateWindowSurface(pWindow);
 	SDL_Delay(2000);
 
-
 	while (!quit)
 	{
 		Uint64 start = SDL_GetPerformanceCounter();
@@ -153,6 +152,12 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		if (board.check_game_over(pacman, ghosts))
 		{
 			lives.remove_life();
+
+			if(lives.game_over()==true)
+			{
+				score.reset_score();
+				lives.restore_lives();
+			}
 			
 			board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
 
