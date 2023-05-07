@@ -5,6 +5,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <memory>
 #include <algorithm>
 
 #include "constants.hpp"
@@ -17,6 +18,7 @@
 #include "blinky.hpp"
 #include "clyde.hpp"
 #include "cell.hpp"
+#include "word.hpp"
 
 class Game
 {

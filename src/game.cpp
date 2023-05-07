@@ -9,15 +9,15 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	"w.www.www.w.www.www.w",
 	"wowww.www.w.www.wwwow",
 	"w.www.www.w.www.www.w",
-	"w.......234.........w",
+	"w...................w",
 	"w.www.w.wwwww.w.www.w",
 	"w.www.w.wwwww.w.www.w",
 	"w.....w...w...w.....w",
 	"wwwww.www w www.wwwww",
 	"wwwww.w   1   w.wwwww",
-	"wwwww.w wwwww w.wwwww",
-	"wwwww.w w   w w.wwwww",
-	"     .  wwwww  .     ",
+	"wwwww.w wwDww w.wwwww",
+	"wwwww.w w234w w.wwwww",
+	"     .  w   w  .     ",
 	"wwwww.w wwwww w.wwwww",
 	"wwwww.w       w.wwwww",
 	"wwwww.w wwwww w.wwwww",
@@ -31,7 +31,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	"w.wwwwwww.w.wwwwwww.w",
 	"w...................w",
 	"wwwwwwwwwwwwwwwwwwwww",
-	};
+	};	
 
 	SDL_Event event;
 	
@@ -39,21 +39,42 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	Pacman pacman{sprites, win_surf};
 
-	Blinky blinky{sprites, win_surf};
-	Inky inky{sprites, win_surf};
-	Pinky pinky{sprites, win_surf};
-	Clyde clyde{sprites, win_surf};
-	std::vector<Ghost*> ghosts; //= {Blinky{sprites, win_surf},Blinky{sprites, win_surf},Blinky{sprites, win_surf},Blinky{sprites, win_surf}};
+	std::vector<std::unique_ptr<Ghost>> ghosts; //= {Blinky{sprites, win_surf},Blinky{sprites, win_surf},Blinky{sprites, win_surf},Blinky{sprites, win_surf}};
+	auto blinky = std::make_unique<Blinky>(sprites, win_surf);
+	auto inky = std::make_unique<Inky>(sprites, win_surf);
+	auto pinky = std::make_unique<Pinky>(sprites, win_surf);
+	auto clyde = std::make_unique<Clyde>(sprites, win_surf);
 
-    ghosts.push_back((Ghost *)&blinky);
-	ghosts.push_back((Ghost *)&inky);
-    ghosts.push_back((Ghost *)&pinky);
-    ghosts.push_back((Ghost *)&clyde);
+	// Le std::move dans le code précédent sert à indiquer que le pointeur unique red_ghost peut être déplacé vers l’élément du vecteur,
+	// c’est-à-dire que la propriété du pointeur est transférée du red_ghost au vecteur.
+	// Cela permet d’éviter de copier le pointeur unique, ce qui n’est pas possible car il ne peut y avoir qu’un seul propriétaire du pointeur.
+    ghosts.push_back(std::move (blinky));
+	ghosts.push_back(std::move (inky));
+    ghosts.push_back(std::move (pinky));
+    ghosts.push_back(std::move (clyde));
 
-	// std::vector<Ghost> ghosts = {Blinky{sprites, win_surf}, Inky{sprites, win_surf}, Pinky{sprites, win_surf}, Clyde{sprites, win_surf}};
 	Board board{map_sketch, pacman, ghosts, sprites, win_surf};
 
 	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
+
+	map.draw(0, 0);
+
+	Word word{sprites, win_surf};
+	word.set_word(132158654);
+	word.draw(10, 10);
+	board.draw();
+	Board_cells& board_cells = board.get_board_cells();
+
+	// std:cout << 
+	for (auto& ghost : ghosts)
+	{
+		ghost->move(board_cells);
+		ghost->draw(update_anim);
+	}
+
+	pacman.draw(update_anim);
+	SDL_UpdateWindowSurface(pWindow);
+	// SDL_Delay(2000);
 
 
 	while (!quit)
@@ -74,8 +95,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		update_anim = get_update_animation_index();
 
 		// Gestion du clavier     
-
-		Board_cells& board_cells = board.get_board_cells();
 		
 		const Uint8 *keys = SDL_GetKeyboardState(NULL);
 		if (keys[SDL_SCANCODE_ESCAPE])
@@ -83,6 +102,22 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		if (keys[SDL_SCANCODE_LEFT])
 		{
 			pacman.set_direction(Direction::LEFT, board_cells);
+		}	
+		if (keys[SDL_SCANCODE_RETURN])
+		{
+			board.sketch_to_board(map_sketch, pacman, ghosts, sprites, win_surf);
+
+
+			map.draw(0, 0);
+			board.draw();
+			for (auto& ghost : ghosts)
+			{
+				ghost->draw(update_anim);
+			}
+			pacman.draw(update_anim);
+			SDL_UpdateWindowSurface(pWindow); 
+			SDL_Delay(2000);
+
 		}
 		if (keys[SDL_SCANCODE_RIGHT])
 		{
@@ -106,28 +141,16 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		board.interract(pacman);
 
 		// std:cout << 
-		for (Ghost *ghost : ghosts)
+		for (auto& ghost : ghosts)
 		{
 			ghost->move(board_cells);
 			ghost->draw(update_anim);
 		}
-		// ghosts[0]
-		// std::cout << "a";
-		// ghosts[1]->move(board_cells);
-		// ghosts[1]->draw(update_anim);	
-		// ghosts[2]->move(board_cells);
-		// ghosts[2]->draw(update_anim);	
-		// ghosts[3]->move(board_cells);
-		// ghosts[3]->draw(update_anim);	
-		// ghosts[1].move(board_cells);
-
-		// ghosts[1].draw(update_anim);		ghosts[2].move(board_cells);
-
-		// ghosts[2].draw(update_anim);		ghosts[3].move(board_cells);
-
-		// ghosts[3].draw(update_anim);
 
 		pacman.draw(update_anim);
+
+		word.draw(10, 10);
+
 
 		// AFFICHAGE
 		SDL_UpdateWindowSurface(pWindow); 

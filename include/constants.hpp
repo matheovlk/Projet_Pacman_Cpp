@@ -52,6 +52,28 @@ constexpr unsigned int GHOST_UP_2_SPRITE_X = GHOST_UP_1_SPRITE_X + 17;
 constexpr unsigned int GHOST_DOWN_1_SPRITE_X = GHOST_UP_2_SPRITE_X + 17;
 constexpr unsigned int GHOST_DOWN_2_SPRITE_X = GHOST_DOWN_1_SPRITE_X + 17;
 
+constexpr unsigned int CHARACTER_SIZE = 8;
+constexpr unsigned int CHARACTER_0_9_Y = 53;
+constexpr unsigned int CHARACTER_A_O_Y = 61;
+constexpr unsigned int CHARACTER_P_Z_Y = 69;
+constexpr unsigned int CHARACTER_0SPACEP_X = 4;
+constexpr unsigned int CHARACTER_1AQ_X = CHARACTER_0SPACEP_X + 8;
+constexpr unsigned int CHARACTER_2BR_X = CHARACTER_1AQ_X + 8;
+constexpr unsigned int CHARACTER_3CS_X = CHARACTER_2BR_X + 8;
+constexpr unsigned int CHARACTER_4DT_X = CHARACTER_3CS_X + 8;
+constexpr unsigned int CHARACTER_5EU_X = CHARACTER_4DT_X + 8;
+constexpr unsigned int CHARACTER_6FV_X = CHARACTER_5EU_X + 8;
+constexpr unsigned int CHARACTER_7GW_X = CHARACTER_6FV_X + 8;
+constexpr unsigned int CHARACTER_8HX_X = CHARACTER_7GW_X + 8;
+constexpr unsigned int CHARACTER_9IY_X = CHARACTER_8HX_X + 8;
+constexpr unsigned int CHARACTER_JZ_X = CHARACTER_9IY_X + 8;
+constexpr unsigned int CHARACTER_K_X = CHARACTER_JZ_X + 8;
+constexpr unsigned int CHARACTER_EXCLAL_X = CHARACTER_K_X + 8;
+constexpr unsigned int CHARACTER_M_X = CHARACTER_EXCLAL_X + 8;
+constexpr unsigned int CHARACTER_N_X = CHARACTER_M_X + 8;
+constexpr unsigned int CHARACTER_O_X = CHARACTER_N_X + 8;
+
+
 
 
 

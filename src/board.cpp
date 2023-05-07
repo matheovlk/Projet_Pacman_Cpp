@@ -1,13 +1,11 @@
 #include "board.hpp"
 
-Board::Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, std::vector<Ghost *> ghosts, SDL_Surface* sprites,SDL_Surface* win_surf){
-	board = sketch_to_board(map_sketch, pacman, ghosts, sprites, win_surf);
+Board::Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf){
+	sketch_to_board(map_sketch, pacman, ghosts, sprites, win_surf);
 }
 
-Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, std::vector<Ghost *> ghosts, SDL_Surface* sprites,SDL_Surface* win_surf)
+void Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf)
 {
-	Board_cells board;
-
 
 	// auto for loop iterator because we dont care of iterator type
 	for (auto y = 0; y < MAP_HEIGHT; y++)
@@ -75,13 +73,10 @@ Board_cells Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> ske
                 default:
                 {
 					board[x][y] = std::make_unique<NonEatable>();
-				}					
-
+				}
 			}
 		}
 	}
-
-	return board;
 }
 
 void Board::draw()

@@ -17,7 +17,7 @@ class Drawable
     protected:
         Drawable(){};
         SDL_Rect sprite_coord_;
-        unsigned char scale_;
+        unsigned char scale_ = BASIC_SPRITE_SCALE;
         bool transparent_;
         SDL_Surface* sprites_ = nullptr;
         SDL_Surface* win_surf_ = nullptr;

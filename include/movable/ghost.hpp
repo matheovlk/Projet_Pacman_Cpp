@@ -35,16 +35,20 @@ class Ghost: public Movable
                 Cell * right_cell = board[static_cast<int>(floor((position.x + half_cell_size) / (CELL_SIZE))) % MAP_WIDTH][floor(position.y / static_cast<unsigned int>(CELL_SIZE))].get();
                 Cell * up_cell = board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))].get();
                 Cell * down_cell = board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y + half_cell_size) / static_cast<unsigned int>(CELL_SIZE))].get();
-                if (left_cell->get_pac_can_pass() && direction_ != Direction::RIGHT)
+                const bool can_pass_left = left_cell->get_pac_can_pass();
+                const bool can_pass_right = right_cell->get_pac_can_pass();
+                const bool can_pass_up = up_cell->get_pac_can_pass();
+                const bool can_pass_down = down_cell->get_pac_can_pass();
+                
+                if (can_pass_left && (direction_ != Direction::RIGHT || !can_pass_right))
                     next_possible_directs.push_back(Direction::LEFT);
-                if (right_cell->get_pac_can_pass() && direction_ != Direction::LEFT)
+                if (can_pass_right && (direction_ != Direction::LEFT || !can_pass_left ))
                     next_possible_directs.push_back(Direction::RIGHT);
-                if (up_cell->get_pac_can_pass() && direction_ != Direction::DOWN)
+                if (can_pass_up && (direction_ != Direction::DOWN || !can_pass_down))
                     next_possible_directs.push_back(Direction::UP);
-                if (down_cell->get_pac_can_pass() && direction_ != Direction::UP)
+                if (can_pass_down && (direction_ != Direction::UP || !can_pass_up))
                     next_possible_directs.push_back(Direction::DOWN);
 
-                std::cout << static_cast<int>(next_possible_directs[0]);
                 if (open_directions != next_possible_directs)
                 {
                     open_directions = next_possible_directs;
