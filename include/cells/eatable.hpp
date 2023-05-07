@@ -3,6 +3,7 @@
 #include "drawable.hpp"
 #include "cell.hpp"
 
+// All that pacman can eat
 class Eatable: public Cell, public Drawable
 {
     public:

@@ -105,8 +105,8 @@ void Game::loop()
 {
 	while (!this->quit && !this->life_lost && !this->game_lost)
 	{
-		// Timer start for frame duration
-		Uint64 start = SDL_GetPerformanceCounter();
+		// Timer start for frame duration | auto bc we dont care about type
+		auto start = SDL_GetPerformanceCounter();
 
 		SDL_Event event;
 		
@@ -125,6 +125,8 @@ void Game::loop()
 		// Clock for animated Drawables
 		update_anim = get_update_animation_index();
 
+
+
 		// Gestion du clavier     
 		const Uint8 *keys = SDL_GetKeyboardState(NULL);
 
@@ -138,62 +140,67 @@ void Game::loop()
 			//quit partie loop
 			this->game_lost = true;
 		}
-		if (keys[SDL_SCANCODE_LEFT])
-		{
-			this->pacman.set_direction(Direction::LEFT, board_cells);
-		}	
-		if (keys[SDL_SCANCODE_RIGHT])
-		{
-			this->pacman.set_direction(Direction::RIGHT, board_cells);
-		}
-		if (keys[SDL_SCANCODE_UP])
-		{
-			this->pacman.set_direction(Direction::UP, board_cells);
-		}
-		if (keys[SDL_SCANCODE_DOWN])
-		{
-			this->pacman.set_direction(Direction::DOWN, board_cells);
-		}
+		
+        // Use a map to associate keys with directions
+        std::map<SDL_Scancode, Direction> key_to_dir {
+            {SDL_SCANCODE_LEFT, Direction::LEFT},
+            {SDL_SCANCODE_RIGHT, Direction::RIGHT},
+            {SDL_SCANCODE_UP, Direction::UP},
+            {SDL_SCANCODE_DOWN, Direction::DOWN}
+        };
+        
+        for (const auto& [key, dir] : key_to_dir) {
+            if (keys[key]) {
+                this->pacman.set_direction(dir, board_cells);
+            }
+        }
 
 		// Loop actions
 		this->pacman.move(board_cells);
 
 		this->board.interract(pacman, score);
 
-		this->nb_eaten_gum = board.get_eaten_gum_nb();
-		if (nb_eaten_gum == 188)
-		{
-			this->life_lost = true;
-		}
+        auto nb_eaten_gum = board.get_eaten_gum_nb();
+        const int max_gum_nb = 188;
+        if (nb_eaten_gum == max_gum_nb)
+        {
+            this->life_lost = true;
+        }
 
-		if (this->board.check_collide_ghost(pacman, ghosts))
-		{
-			this->lives.remove_life();
-			this->life_lost = true;
-			if (this->lives.game_over())
-				this->game_lost = true;
-		}
+        // Lambda function to encapsulate the  checking collisions and lives logic
+        auto check_game_state = [this]() {
+            if (this->board.check_collide_ghost(pacman, ghosts))
+            {
+                this->lives.remove_life();
+                this->life_lost = true;
+                if (this->lives.game_over())
+                    this->game_lost = true;
+            }
+        };
+        
+        check_game_state();
 
-		//Draw everything
-		this->score.print_scores();
+        //Draw everything
+        this->score.print_scores();
 
-		this->map.draw(0, 0);
 
-		for (auto& ghost : ghosts)
-		{
-			ghost->move(board_cells, nb_eaten_gum);
-			ghost->draw(update_anim);
-		}
+        this->map.draw(0, 0);
+        
+        this->board.draw();
 
-		this->board.draw();
+        for (const auto& ghost : ghosts)
+        {
+            ghost->move(board_cells, nb_eaten_gum);
+            ghost->draw(update_anim);
+        }
 
-		this->pacman.draw(update_anim);
 
-		this->lives.draw_lives();
+        this->pacman.draw(update_anim);
 
-		// Display frame
-		SDL_UpdateWindowSurface(this->pWindow); 
+        this->lives.draw_lives();
 
+        // Display frame
+        SDL_UpdateWindowSurface(this->pWindow); 
 		//200 FPS !!
 		Uint64 end = SDL_GetPerformanceCounter();
 		float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;

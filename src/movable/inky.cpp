@@ -1,5 +1,6 @@
 #include "inky.hpp"
 
+// Blue ghost, is inside and goes out after 30 eaten gum
 Inky::Inky(SDL_Surface* sprites,SDL_Surface* win_surf)
 {
     this->sprites_ = sprites;

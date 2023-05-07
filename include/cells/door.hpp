@@ -2,6 +2,7 @@
 
 #include "nonEatable.hpp"
 
+// The door of the ghost house
 class Door: public NonEatable
 {
     public:

@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h> 
 
+// Encapsulation for SDL
 class Drawable
 {
     public:
@@ -14,7 +15,7 @@ class Drawable
 
         Drawable(SDL_Surface* sprites, SDL_Surface* win_surf, const char offset = OFFSET);
         
-        void draw(int x, int y);
+        void draw(const int& x, const int& y);
 
         void set_sprite(SDL_Rect new_sprite);
 

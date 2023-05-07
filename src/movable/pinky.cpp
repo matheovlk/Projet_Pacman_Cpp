@@ -1,5 +1,6 @@
 #include "pinky.hpp"
 
+// Pink ghost, can go out at beginning
 Pinky::Pinky(SDL_Surface* sprites,SDL_Surface* win_surf)
 {
     this->sprites_ = sprites;
@@ -19,6 +20,8 @@ Pinky::Pinky(SDL_Surface* sprites,SDL_Surface* win_surf)
         {{GHOST_DOWN_1_SPRITE_X, PINKY_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
         {GHOST_DOWN_2_SPRITE_X, PINKY_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H}}}
     };
+
+    // Up to get out of monster houes early
     this->direction_ = Direction::UP;
     this->current_texture = animation_textures.find(direction_)->second;
     this->sprite_coord_ = current_texture[0];

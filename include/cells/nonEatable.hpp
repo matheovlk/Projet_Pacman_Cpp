@@ -2,6 +2,7 @@
 
 #include "cell.hpp"
 
+// Wall or empty cell
 class NonEatable: public Cell
 {
     public:

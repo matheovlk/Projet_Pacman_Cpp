@@ -6,7 +6,7 @@ void Board::reset_board(const std::array<std::string, MAP_HEIGHT>map_sketch , Pa
 	this->eaten_gum_nb = 0;
 }
 
-
+// Stansflors the map sketch into an array of specific cells
 void Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf)
 {
 
@@ -83,8 +83,8 @@ void Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pa
 					board[x][y] = std::make_unique<Door>();
 					break;
 				}
-        default:
-        {
+				default:
+				{
 					board[x][y] = std::make_unique<NonEatable>();
 				}
 			}
@@ -101,13 +101,20 @@ void Board::draw()
 			Cell_type cell_type = cell->get_cell_type();
 			if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum || cell_type == Cell_type::Fruit)
 			{
-
-				auto eatable_ptr = dynamic_cast<Eatable*>(cell.get());
+				// Draw pacgums, supergums and frutis
+				auto eatable_ptr = static_cast<Eatable*>(cell.get());
 				eatable_ptr->draw_itself();
 				if (cell_type == Cell_type::Fruit)
 				{
-					auto eatable_ptr = dynamic_cast<Fruit*>(cell.get());
-					eatable_ptr->appear(this->get_eaten_gum_nb());
+					
+					// Use a lambda function to encapsulate the logic of fruit appearance
+					auto appear = [this](Eatable* eatable_ptr) {
+						auto fruit_ptr = static_cast<Fruit*>(eatable_ptr);
+						fruit_ptr->appear(this->get_eaten_gum_nb());
+					};
+					appear(eatable_ptr);
+
+					
 				}
 
 			}
@@ -118,7 +125,7 @@ void Board::draw()
 
 const std::unique_ptr<Cell>& get_door(const std::array<std::array<std::unique_ptr<Cell>, MAP_HEIGHT>, MAP_WIDTH>& board, int value)
 {
-	// On parcourt le tableau à deux dimensions
+	//  range-based for loops
 	for (const auto& row : board) {
 		for (const auto& cell : row) {
 		// On vérifie si la cellule existe et si sa méthode get_type() renvoie la valeur voulue
@@ -145,17 +152,24 @@ void Board::interract(Pacman& pacman, Score& score){
 	{
 		auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
 
+		// Increment number of eaten gum to chen end gam, ghost spawn and fruit spawn
 		if (cell_type == Cell_type::Gum && eatable_ptr->get_eaten() == false)
 		{
 			eaten_gum_nb++;
 		}
+
+		// Pacman eats something
 		if (eatable_ptr->get_eaten() == false) {
 			score.update_score(cell_type);
       		eatable_ptr->set_eaten(true);
+
 			if(cell_type == Cell_type::Fruit)
 			{
-				auto fruit = dynamic_cast<Fruit*>(pacman_cell);
-				fruit->set_eaten_fruit();
+				auto set_eaten_fruit = [](Eatable* eatable_ptr) {
+					auto fruit = static_cast<Fruit*>(eatable_ptr);
+					fruit->set_eaten_fruit();
+				};
+				set_eaten_fruit(eatable_ptr);
 			}
 		}
  

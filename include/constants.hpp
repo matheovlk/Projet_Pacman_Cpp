@@ -114,7 +114,6 @@ enum class Cell_type
 {
 	Empty,
 	Wall,
-    Spawn,
     Gum,
     Super_gum,
     Fruit,

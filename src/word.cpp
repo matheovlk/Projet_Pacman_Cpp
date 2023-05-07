@@ -1,6 +1,6 @@
 #include "word.hpp"
 
-// for strings
+// Draw a strign as sprites
 void Word::set_word(std::string word)
 {
     std::vector<SDL_Rect> word_sprites;
@@ -32,6 +32,7 @@ void Word::set_word(std::string word)
     this->word_sprites = word_sprites;
 }
 
+// Draw a number as sprites
 void Word::draw(int x, int y)
 {
     int current_x = x;

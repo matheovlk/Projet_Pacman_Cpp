@@ -1,5 +1,6 @@
 #include "clyde.hpp"
 
+// Orange ghost, is inside and goes out after 60 eaten gum
 Clyde::Clyde(SDL_Surface* sprites,SDL_Surface* win_surf)
 {
     this->sprites_ = sprites;

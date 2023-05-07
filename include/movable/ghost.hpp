@@ -8,7 +8,9 @@
 class Ghost: public Movable
 {
     public:
-        Ghost(){};
+        Ghost(){
+            this->transparent_ = false;
+        };
 
         void move(Board_cells* board, int& nb_eaten_gum);
 

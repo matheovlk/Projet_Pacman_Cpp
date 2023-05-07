@@ -29,6 +29,7 @@ bool Eatable::get_eaten()
     return eaten;
 }
 
+// posotion in map pixel to board swuares
 unsigned int Eatable::board_position_to_xy(const unsigned char pos_on_board, const unsigned char sprite_size, char scale)
 {
     const float sprite_offset = sprite_size / 2 * scale;

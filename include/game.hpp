@@ -22,6 +22,7 @@
 #include "score.hpp"
 #include "lives.hpp"
 
+// The game instanciations and main loop
 class Game
 {
     public:

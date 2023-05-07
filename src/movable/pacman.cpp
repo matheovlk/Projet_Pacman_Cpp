@@ -32,6 +32,7 @@ Pacman::Pacman(SDL_Surface* sprites,SDL_Surface* win_surf)
     transparent_ = true;
 }
 
+// Change the direction pacman is facing
 void Pacman::set_direction(Direction direction, Board_cells* board)
 {
     Board_cells& board_ref = *board;
@@ -42,6 +43,7 @@ void Pacman::set_direction(Direction direction, Board_cells* board)
     {
         case Direction::LEFT:
         {
+            // if potential facing cell is clear and pacman is alligned in center of the cell, turn
             if
             (
                 board_ref[static_cast<int>(floor((position.x - (half_cell_size + 1)) / CELL_SIZE)) % MAP_WIDTH][floor(position.y / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
@@ -56,6 +58,7 @@ void Pacman::set_direction(Direction direction, Board_cells* board)
         }
         case Direction::RIGHT:
         {
+            // if potential facing cell is clear and pacman is alligned in center of the cell, turn
             if
             (
                 board_ref[static_cast<int>(floor((position.x + half_cell_size) / (CELL_SIZE))) % MAP_WIDTH][floor(position.y / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
@@ -69,6 +72,7 @@ void Pacman::set_direction(Direction direction, Board_cells* board)
         }
         case Direction::UP:
         {
+            // if potential facing cell is clear and pacman is alligned in center of the cell, turn
             if
             (
                 board_ref[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
@@ -82,6 +86,7 @@ void Pacman::set_direction(Direction direction, Board_cells* board)
         }
         case Direction::DOWN:
         {
+            // if potential facing cell is clear and pacman is alligned in center of the cell, turn
             if
             (
                 board_ref[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y + half_cell_size) / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \

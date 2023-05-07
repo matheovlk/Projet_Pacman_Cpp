@@ -22,7 +22,7 @@ Drawable::Drawable(SDL_Surface* sprites, SDL_Surface* win_surf, const char offse
 }
 
 
-void Drawable::draw(const int x, const int y)
+void Drawable::draw(const int& x, const int& y)
 {
     if (transparent_)
     {

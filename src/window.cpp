@@ -24,3 +24,15 @@ void Window::run_game()
     game.init();
     SDL_Quit(); // ON SORT
 }
+
+int Window::start()
+{
+
+    if (init(pWindow, win_surf, sprites) == 1)
+    {
+        std::cerr <<"Echec de l'initialisation de la SDL "<<SDL_GetError() << std::endl;
+        return 1;
+    }
+    run_game();
+    return 0;
+}
