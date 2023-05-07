@@ -34,6 +34,16 @@ class Game
         bool update_anim = false;
         bool get_update_animation_index();
         unsigned char game_animation_index = 0;
+        Drawable map{};
+
         SDL_Rect map_sprite_loc = { MAP_SPRITE_X ,MAP_SPRITE_Y, MAP_SPRITE_W, MAP_SPRITE_H }; // x,y, w,h (0,0) en haut a gauche
+        Pacman pacman{};
+        Board board{};
+	    std::vector<std::unique_ptr<Ghost>> ghosts;
+        bool quit = false;
+        Score score{};
+        Lives lives{};
+        int nb_eaten_gum;
+        Board_cells* board_cells;
 
 };

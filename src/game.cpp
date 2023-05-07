@@ -37,12 +37,9 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	};	
 
 	SDL_Event event;
-	
-	bool quit = false;
 
-	Pacman pacman{sprites, win_surf};
+	this->pacman = Pacman{sprites, win_surf};
 
-	std::vector<std::unique_ptr<Ghost>> ghosts;
 	auto blinky = std::make_unique<Blinky>(sprites, win_surf);
 	auto inky = std::make_unique<Inky>(sprites, win_surf);
 	auto pinky = std::make_unique<Pinky>(sprites, win_surf);
@@ -50,28 +47,19 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	//Fruit fruit = std::make_unique<Fruit>(sprites, win_surf);
 
-	// Le std::move dans le code précédent sert à indiquer que le pointeur unique red_ghost peut être déplacé vers l’élément du vecteur,
-	// c’est-à-dire que la propriété du pointeur est transférée du red_ghost au vecteur.
-	// Cela permet d’éviter de copier le pointeur unique, ce qui n’est pas possible car il ne peut y avoir qu’un seul propriétaire du pointeur.
-    ghosts.push_back(std::move (blinky));
-	ghosts.push_back(std::move (inky));
-    ghosts.push_back(std::move (pinky));
-    ghosts.push_back(std::move (clyde));
+	// avoid copy on unique_ptr
+    this->ghosts.push_back(std::move (blinky));
+	this->ghosts.push_back(std::move (inky));
+    this->ghosts.push_back(std::move (pinky));
+    this->ghosts.push_back(std::move (clyde));
 
-	Board board{map_sketch, pacman, ghosts, sprites, win_surf};
+	this->board = Board{map_sketch, pacman, ghosts, sprites, win_surf};
 
-	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
+	this->map = Drawable{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
 
 	map.draw(0, 0);
 
-	Score score{};
-
-	//Fruit fruit1{100, 100, sprites, win_surf};
-
-	//Fruit fruit2{};
-
-
-	Lives lives{sprites, win_surf};
+	this->lives = Lives{sprites, win_surf};
 
 	Word high_score_word{sprites, win_surf};
 	high_score_word.set_word("HIGH SCORE");
@@ -86,8 +74,9 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	ready.set_word("READY!");
 	board.draw();
 	ready.draw(290, 564);
-	int& nb_eaten_gum = board.get_eaten_gum_nb();
-	Board_cells& board_cells = board.get_board_cells();
+
+	this->nb_eaten_gum = board.get_eaten_gum_nb();
+	this->board_cells = &(board.get_board_cells());
 
 	for (auto& ghost : ghosts)
 	{

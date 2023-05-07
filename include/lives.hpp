@@ -8,6 +8,9 @@
 class Lives
 {
     public:
+
+        Lives(){};
+
         Lives(SDL_Surface* sprites,SDL_Surface* win_surf)
         {
             for (int i = 0; i < this->lives; i++)
