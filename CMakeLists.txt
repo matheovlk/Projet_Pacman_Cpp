@@ -29,6 +29,7 @@ target_sources(${PROJECT_NAME}
 	src/cells/pacgum.cpp
 	src/cells/superPacgum.cpp
 	src/cells/eatable.cpp
+	src/cells/fruit.cpp
 
 	)
 target_include_directories(${PROJECT_NAME}

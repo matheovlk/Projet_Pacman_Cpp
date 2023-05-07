@@ -31,6 +31,7 @@ constexpr unsigned int SUPERGUM_SPRITE_X = 9;
 constexpr unsigned int SUPERGUM_SPRITE_Y = 79;
 
 constexpr unsigned char FRUIT_SPRITE_SIZE = 14;
+constexpr unsigned char FRUIT_SPRITE_SCALE = 3;
 
 constexpr unsigned int CHERRY_SPRITE_X = 290;
 constexpr unsigned int CHERRY_SPRITE_Y = 238;
