@@ -82,7 +82,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	for (auto& ghost : ghosts)
 	{
-		ghost->move(board_cells);
 		ghost->draw(update_anim);
 	}
 
@@ -93,7 +92,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	while (!quit)
 	{
-		std::cout << nb_eaten_gum << std::endl;
 		Uint64 start = SDL_GetPerformanceCounter();
 
 		SDL_Event event;
@@ -120,8 +118,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		}	
 		if (keys[SDL_SCANCODE_RETURN])
 		{
-			board.sketch_to_board(map_sketch, pacman, ghosts, sprites, win_surf);
-
+			board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
 
 			map.draw(0, 0);
 			board.draw();
@@ -166,12 +163,28 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 		pacman.move(board_cells);
 
+		if (board.check_game_over(pacman, ghosts))
+		{
+						board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
+
+			map.draw(0, 0);
+			board.draw();
+			for (auto& ghost : ghosts)
+			{
+				ghost->draw(update_anim);
+			}
+			pacman.draw(update_anim);
+			ready.draw(290, 490);
+			SDL_UpdateWindowSurface(pWindow); 
+			SDL_Delay(2000);
+
+		}
 		board.interract(pacman, score);
 
 		// std:cout << 
 		for (auto& ghost : ghosts)
 		{
-			ghost->move(board_cells);
+			ghost->move(board_cells, nb_eaten_gum);
 			ghost->draw(update_anim);
 		}
 

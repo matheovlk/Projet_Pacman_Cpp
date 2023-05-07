@@ -25,8 +25,12 @@ class Board
         void interract(Pacman& pacman, Score& score);
 
         void draw();
+
+        void reset_board(const std::array<std::string, MAP_HEIGHT>, Pacman&, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf);
         
         void sketch_to_board(const std::array<std::string, MAP_HEIGHT>, Pacman&, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf);
+
+        bool check_game_over(Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts);
 
         int& get_eaten_gum_nb();
 

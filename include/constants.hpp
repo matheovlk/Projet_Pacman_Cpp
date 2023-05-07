@@ -115,7 +115,7 @@ enum class Cell_type
     Spawn,
     Gum,
     Super_gum,
-    Fruit
+    Fruit,
     Door
 };
 

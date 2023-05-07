@@ -31,4 +31,9 @@ class Pinky: public Ghost
             scale_ = BASIC_SPRITE_SCALE;
             transparent_ = true;
         }
+
+        bool can_pass_door(int& nb_eaten_gum)
+        {
+            return true;
+        }
 };

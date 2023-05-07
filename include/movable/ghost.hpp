@@ -4,25 +4,13 @@
 #include <iostream>
 #include <random>
 #include <vector>
-// #include "inky.hpp"
-// #include "pinky.hpp"
-// #include "blinky.hpp"
-// #include "clyde.hpp"
-
-
-// struct Ghosts {
-//     Blinky blinky;
-//     Inky inky;
-//     Pinky pinky;
-//     Clyde clyde;
-// };
 
 class Ghost: public Movable
 {
     public:
         Ghost(){};
 
-        void move(Board_cells& board) override
+        void move(Board_cells& board, int& nb_eaten_gum)
         {
             const unsigned char half_cell_size = CELL_SIZE / 2;
             Movable::move(board);
@@ -48,6 +36,9 @@ class Ghost: public Movable
                     next_possible_directs.push_back(Direction::UP);
                 if (can_pass_down && (direction_ != Direction::UP || !can_pass_up))
                     next_possible_directs.push_back(Direction::DOWN);
+                
+                if (up_cell->get_cell_type() == Cell_type::Door && can_pass_door(nb_eaten_gum))
+                    next_possible_directs = std::vector<Direction> {Direction::UP};
 
                 if (open_directions != next_possible_directs)
                 {
@@ -63,5 +54,7 @@ class Ghost: public Movable
 
         private:
             std::vector<Direction> open_directions = {};
+
+            virtual bool can_pass_door(int& nb_eaten_gum){return false;}
 
 };
