@@ -1,5 +1,6 @@
 
 #include "game.hpp"
+#include "score.hpp"
 
 void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
 {
@@ -19,7 +20,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	"wwwww.w w234w w.wwwww",
 	"     .  w   w  .     ",
 	"wwwww.w wwwww w.wwwww",
-	"wwwww.w       w.wwwww",
+	"wwwww.w   F   w.wwwww",
 	"wwwww.w wwwww w.wwwww",
 	"wwwww.w wwwww w.wwwww",
 	"w.........w.........w",
@@ -55,16 +56,25 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	Board board{map_sketch, pacman, ghosts, sprites, win_surf};
 
-	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
+	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
 
 	map.draw(0, 0);
   
+
+	Score score{};
+
+	Word high_score_word{sprites, win_surf};
+	high_score_word.set_word("HIGH SCORE");
+	high_score_word.draw(HIGH_SCORE_BASIC_OFFSET, 10);
+
+	Word score_sprite{sprites, win_surf};
+	Word high_score_sprite{sprites, win_surf};
+
 	board.draw();
 	ready.draw(290, 490);
 	int& nb_eaten_gum = board.get_eaten_gum_nb();
 	Board_cells& board_cells = board.get_board_cells();
 
-	// std:cout << 
 	for (auto& ghost : ghosts)
 	{
 		ghost->move(board_cells);
@@ -132,6 +142,18 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		{
 			pacman.set_direction(Direction::DOWN, board_cells);
 		}
+
+		int sc = score.get_score();
+		score_sprite.set_word(sc);
+		// We want the last number of the score to be always on the same place.
+		// When the score length increments (90 to 100 for ex), the zero stays at the same place
+		// The bigger the score is, the smaller the offset is
+		score_sprite.draw(SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(sc).length()), 30);
+
+		int high_sc = score.get_high_score();
+		score_sprite.set_word(high_sc);
+		// Same logic as the score
+		score_sprite.draw(HIGH_SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(high_sc).length()-4), 30);
 		
 		map.draw(0, 0);
 
@@ -139,7 +161,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 		pacman.move(board_cells);
 
-		board.interract(pacman);
+		board.interract(pacman, score);
 
 		// std:cout << 
 		for (auto& ghost : ghosts)
@@ -149,8 +171,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		}
 
 		pacman.draw(update_anim);
-
-
 
 		// AFFICHAGE
 		SDL_UpdateWindowSurface(pWindow); 

@@ -2,6 +2,12 @@
 
 #include "movable.hpp"
 
+Movable::Movable()
+{
+    offset_ = OFFSET;
+}
+
+
 void Movable::set_position(const unsigned int& x, const unsigned int& y)
 {
     position.x = x;

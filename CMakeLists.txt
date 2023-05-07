@@ -21,6 +21,7 @@ target_sources(${PROJECT_NAME}
 	src/movable/clyde.cpp
 	src/board.cpp
 	src/word.cpp
+	src/score.cpp
 	src/cells/cell.cpp
 	src/cells/door.cpp
 	src/cells/nonEatable.cpp

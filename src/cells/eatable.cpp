@@ -4,6 +4,7 @@
 Eatable::Eatable()
 {
     scale_ = MAP_SPRITE_SCALE;
+    offset_ = OFFSET;
 }
 
 void Eatable::draw_itself()

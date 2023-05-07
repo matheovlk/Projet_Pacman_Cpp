@@ -22,7 +22,7 @@ class Movable: public Drawable
 {
     public:
     
-        Movable(){};
+        Movable();
 
         void set_position(const unsigned int& x, const unsigned int& y);
 
