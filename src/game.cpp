@@ -1,7 +1,5 @@
 
 #include "game.hpp"
-#include "score.hpp"
-#include "fruit.hpp"
 
 // Init the game once
 void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
@@ -44,8 +42,10 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	auto inky = std::make_unique<Inky>(sprites, win_surf);
 	auto pinky = std::make_unique<Pinky>(sprites, win_surf);
 	auto clyde = std::make_unique<Clyde>(sprites, win_surf);
+  Score score{sprites, win_surf};
 
-	//Fruit fruit = std::make_unique<Fruit>(sprites, win_surf);
+	score.print_basic_scores();
+
 
 	// avoid copy on unique_ptr
     this->ghosts.push_back(std::move (blinky));
@@ -171,18 +171,7 @@ void Game::loop(SDL_Window* pWindow)
 			pacman.set_direction(Direction::DOWN, board_cells);
 		}
 
-		int sc = score.get_score();
-		// score_sprite.set_word(sc);
-
-		// We want the last number of the score to be always on the same place.
-		// When the score length increments (90 to 100 for ex), the zero stays at the same place
-		// The bigger the score is, the smaller the offset is
-		// score_sprite.draw(SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(sc).length()), 30);
-
-		// int high_sc = score.get_high_score();
-		// score_sprite.set_word(high_sc);
-		// Same logic as the score
-		// score_sprite.draw(HIGH_SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(high_sc).length()-4), 30);
+		score.print_scores();
 
 		map.draw(0, 0);
 
@@ -192,7 +181,13 @@ void Game::loop(SDL_Window* pWindow)
 
 		if (board.check_game_over(pacman, ghosts))
 		{
-			// lives.remove_life();
+			lives.remove_life();
+
+			if(lives.game_over()==true)
+			{
+				score.reset_score();
+				lives.restore_lives();
+			}
 			
 			// board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
 

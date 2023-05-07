@@ -13,6 +13,8 @@
 class Word: public Drawable
 {
     public :
+        Word(){};
+        
         Word(SDL_Surface* sprites, SDL_Surface* win_surf): Drawable(sprites, win_surf, WORD_OFFSET){transparent_ = false;};
         
         // for strings
