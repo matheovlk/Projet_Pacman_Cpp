@@ -60,7 +60,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	map.draw(0, 0);
 
 	Word word{sprites, win_surf};
-	word.set_word(132158654);
+	word.set_word("dsdjqk!!");
 	word.draw(10, 10);
 	board.draw();
 	Board_cells& board_cells = board.get_board_cells();
