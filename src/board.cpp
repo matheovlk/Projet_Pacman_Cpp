@@ -155,6 +155,11 @@ void Board::interract(Pacman& pacman, Score& score){
 		if (eatable_ptr->get_eaten() == false) {
 			score.update_score(cell_type);
       		eatable_ptr->set_eaten(true);
+			if(cell_type == Cell_type::Fruit)
+			{
+				auto fruit = dynamic_cast<Fruit*>(pacman_cell);
+				fruit->set_eaten_fruit();
+			}
 		}
  
 
