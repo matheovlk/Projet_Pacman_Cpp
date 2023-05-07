@@ -11,3 +11,23 @@ Fruit::Fruit(const unsigned char& x_on_board, const unsigned char& y_on_board, S
                                         board_position_to_xy(y_on_board, FRUIT_SPRITE_SIZE, FRUIT_SPRITE_SCALE)};
     scale_ = FRUIT_SPRITE_SCALE;
 }
+
+void Fruit::appear(int nb_eaten_gum)
+{
+
+    std::cout << nb_eaten_gum << std::endl;
+    if(nb_eaten_gum >= 70)
+    {
+        // The fruit appears
+        this->set_eaten(false);
+    } else if(nb_eaten_gum >= 170)
+    {
+        // The fruit appears
+        this->set_eaten(false);
+        // retirer le premier fruit s'il n'a pas encore été mangé
+        // faire apparaître le deuxième fruit
+    } else
+    {
+        this->set_eaten(true);
+    }
+}

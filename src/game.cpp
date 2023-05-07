@@ -47,6 +47,8 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	auto pinky = std::make_unique<Pinky>(sprites, win_surf);
 	auto clyde = std::make_unique<Clyde>(sprites, win_surf);
 
+	//Fruit fruit = std::make_unique<Fruit>(sprites, win_surf);
+
 	// Le std::move dans le code précédent sert à indiquer que le pointeur unique red_ghost peut être déplacé vers l’élément du vecteur,
 	// c’est-à-dire que la propriété du pointeur est transférée du red_ghost au vecteur.
 	// Cela permet d’éviter de copier le pointeur unique, ce qui n’est pas possible car il ne peut y avoir qu’un seul propriétaire du pointeur.
@@ -80,7 +82,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
   
 	Word ready{sprites, win_surf};
 	ready.set_word("READY!");
-	board.draw();
+	board.draw(0);
 	ready.draw(290, 564);
 	int& nb_eaten_gum = board.get_eaten_gum_nb();
 	Board_cells& board_cells = board.get_board_cells();
@@ -129,7 +131,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 
 			map.draw(0, 0);
-			board.draw();
+			board.draw(nb_eaten_gum);
 			for (auto& ghost : ghosts)
 			{
 				ghost->draw(update_anim);
@@ -167,7 +169,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		
 		map.draw(0, 0);
 
-		board.draw();
+		board.draw(nb_eaten_gum);
 
 		pacman.move(board_cells);
 

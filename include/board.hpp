@@ -25,7 +25,7 @@ class Board
 
         void interract(Pacman& pacman, Score& score);
 
-        void draw();
+        void draw(int nb_eaten_gum);
         
         void sketch_to_board(const std::array<std::string, MAP_HEIGHT>, Pacman&, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf);
 

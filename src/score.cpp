@@ -25,6 +25,8 @@ void Score::update_score(Cell_type& cell_type)
         this->score += 10;
     if (cell_type == Cell_type::Super_gum)
         this->score += 50;
+    if (cell_type == Cell_type::Fruit)
+        this->score += 500;
     if (score > high_score)
         this->high_score = score;
 }

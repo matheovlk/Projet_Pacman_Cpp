@@ -12,7 +12,7 @@ class Eatable: public Cell, public Drawable
 
         void restart();
 
-        void set_eaten();
+        void set_eaten(bool eaten);
 
         bool get_eaten();
 

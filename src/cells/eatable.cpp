@@ -19,9 +19,9 @@ void Eatable::restart()
     eaten = false;
 }
 
-void Eatable::set_eaten()
+void Eatable::set_eaten(bool eaten)
 {
-    eaten = true;
+    this->eaten = eaten;
 }
 
 bool Eatable::get_eaten()
