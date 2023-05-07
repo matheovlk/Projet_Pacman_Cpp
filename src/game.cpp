@@ -84,7 +84,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
   
 	Word ready{sprites, win_surf};
 	ready.set_word("READY!");
-	board.draw(0);
+	board.draw();
 	ready.draw(290, 564);
 	int& nb_eaten_gum = board.get_eaten_gum_nb();
 	Board_cells& board_cells = board.get_board_cells();
@@ -131,7 +131,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 			board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
 
 			map.draw(0, 0);
-			board.draw(nb_eaten_gum);
+			board.draw();
 			for (auto& ghost : ghosts)
 			{
 				ghost->draw(update_anim);
@@ -169,7 +169,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 		map.draw(0, 0);
 
-		board.draw(nb_eaten_gum);
+		board.draw();
 
 		pacman.move(board_cells);
 

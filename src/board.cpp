@@ -95,7 +95,7 @@ void Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pa
 	}
 }
 
-void Board::draw(int nb_eaten_gum)
+void Board::draw()
 {
 	for (auto& row : board)
 	{
@@ -110,7 +110,7 @@ void Board::draw(int nb_eaten_gum)
 				if (cell_type == Cell_type::Fruit)
 				{
 					auto eatable_ptr = dynamic_cast<Fruit*>(cell.get());
-					eatable_ptr->appear(nb_eaten_gum);
+					eatable_ptr->appear(this->get_eaten_gum_nb());
 				}
 
 			}
@@ -154,7 +154,7 @@ void Board::interract(Pacman& pacman, Score& score){
 		}
 		if (eatable_ptr->get_eaten() == false) {
 			score.update_score(cell_type);
-      		eatable_ptr->set_eaten();
+      		eatable_ptr->set_eaten(true);
 		}
  
 
