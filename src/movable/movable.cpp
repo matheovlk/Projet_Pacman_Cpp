@@ -29,7 +29,7 @@ void Movable::move(Board_cells& board)
         {
             // if in left tunnel
             if (position.x == 0)
-                position.x = MAP_WIDTH * CELL_SIZE;
+                position.x = MAP_WIDTH * CELL_SIZE - 1;
             //if near left tunnel
             else if (position.x <= half_cell_size)
                 position.x --;
@@ -44,7 +44,7 @@ void Movable::move(Board_cells& board)
         case Direction::RIGHT:
         {
             // if in left tunnel
-            if (position.x == MAP_WIDTH * CELL_SIZE)
+            if (position.x == MAP_WIDTH * CELL_SIZE  - 1)
                 position.x = 0;
             // near left tunnel
             else if (floor(position.x / CELL_SIZE + 1) == MAP_WIDTH && position.x + half_cell_size > MAP_WIDTH)
