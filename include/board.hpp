@@ -5,6 +5,7 @@
 #include "pacgum.hpp"
 #include "superPacgum.hpp"
 #include "nonEatable.hpp"
+#include "door.hpp"
 
 #include <iostream>
 #include <memory>
@@ -26,7 +27,11 @@ class Board
         
         void sketch_to_board(const std::array<std::string, MAP_HEIGHT>, Pacman&, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf);
 
-    private:
+        int& get_eaten_gum_nb();
+
+    private :
+
         Board_cells board;
 
+        int eaten_gum_nb = 0;
 };
