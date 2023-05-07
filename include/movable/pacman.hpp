@@ -12,5 +12,4 @@ class Pacman: public Movable
 
         void set_direction(Direction ,const Board_cells&);
 
-        Coordinates<unsigned char> get_position_on_board();
 };

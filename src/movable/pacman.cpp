@@ -94,13 +94,4 @@ void Pacman::set_direction(const Direction direction,const Board_cells& board)
         }
     }
 }
-
-Coordinates<unsigned char> Pacman::get_position_on_board()
-{
-
-    unsigned char x_on_board = position.x / CELL_SIZE;
-    unsigned char y_on_board = position.y / CELL_SIZE;
-    return {x_on_board, y_on_board};
-
-}
  

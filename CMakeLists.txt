@@ -12,6 +12,7 @@ target_sources(${PROJECT_NAME}
 	src/window.cpp
 	src/game.cpp
 	src/drawable.cpp
+	src/lives.cpp
 	src/movable/movable.cpp
 	src/movable/pacman.cpp
 	src/movable/ghost.cpp
