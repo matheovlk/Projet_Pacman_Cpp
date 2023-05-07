@@ -7,9 +7,9 @@
 #include <iostream>
 #include <memory>
 #include <algorithm>
+#include <fstream>
 
 #include "constants.hpp"
-
 #include "drawable.hpp"
 #include "board.hpp"
 #include "pacman.hpp"
@@ -26,12 +26,12 @@ class Game
 {
     public:
         
-        Game(){};
+        Game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites);
 
-        void init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites);
-        void start_game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites, std::array<std::string, MAP_HEIGHT> map_sketch);
-        void new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites, std::array<std::string, MAP_HEIGHT> map_sketch);
-        void loop(SDL_Window*);
+        void init();
+        void start_game();
+        void new_life();
+        void loop();
 
     private:
         bool update_anim = false;
@@ -49,4 +49,8 @@ class Game
         Lives lives{};
         int nb_eaten_gum;
         Board_cells* board_cells;
+        std::array<std::string, MAP_HEIGHT> map_sketch;
+        SDL_Window* pWindow;
+        SDL_Surface* win_surf;
+        SDL_Surface* sprites;
 };

@@ -1,47 +1,34 @@
 
 #include "game.hpp"
 
-// Init the game once
-void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
+Game::Game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
 {
-	std::array<std::string, MAP_HEIGHT> map_sketch = {
-	"wwwwwwwwwwwwwwwwwwwww",
-	"w.........w.........w",
-	"w.www.www.w.www.www.w",
-	"wowww.www.w.www.wwwow",
-	"w.www.www.w.www.www.w",
-	"w...................w",
-	"w.www.w.wwwww.w.www.w",
-	"w.www.w.wwwww.w.www.w",
-	"w.....w...w...w.....w",
-	"wwwww.www w www.wwwww",
-	"wwwww.w   1   w.wwwww",
-	"wwwww.w wwDww w.wwwww",
-	"wwwww.w w234w w.wwwww",
-	"     .  w   w  .     ",
-	"wwwww.w wwwww w.wwwww",
-	"wwwww.w   F   w.wwwww",
-	"wwwww.w wwwww w.wwwww",
-	"wwwww.w wwwww w.wwwww",
-	"w.........w.........w",
-	"w.www.www.w.www.www.w",
-	"wo..w.....P.....w..ow",
-	"www.w.w.wwwww.w.w.www",
-	"www.w.w.wwwww.w.w.www",
-	"w.....w...w...w.....w",
-	"w.wwwwwww.w.wwwwwww.w",
-	"w...................w",
-	"wwwwwwwwwwwwwwwwwwwww",
-	};
+	this->pWindow = pWindow;
+	this->win_surf = win_surf;
+	this->sprites = sprites;
+}
+
+// Init the game once
+void Game::init()
+{
+
+	std::ifstream file("assets/map.txt");
+	for (int i = 0; i < MAP_HEIGHT; i++)
+    {
+        std::getline(file, this->map_sketch[i]);
+    }
+
+    // Fermer le fichier
+    file.close();
 
 	SDL_Event event;
 
-	this->pacman = Pacman{sprites, win_surf};
+	this->pacman = Pacman{this->sprites, this->win_surf};
 
-	auto blinky = std::make_unique<Blinky>(sprites, win_surf);
-	auto inky = std::make_unique<Inky>(sprites, win_surf);
-	auto pinky = std::make_unique<Pinky>(sprites, win_surf);
-	auto clyde = std::make_unique<Clyde>(sprites, win_surf);
+	auto blinky = std::make_unique<Blinky>(this->sprites, this->win_surf);
+	auto inky = std::make_unique<Inky>(this->sprites, this->win_surf);
+	auto pinky = std::make_unique<Pinky>(this->sprites, this->win_surf);
+	auto clyde = std::make_unique<Clyde>(this->sprites, this->win_surf);
 
 	// avoid copy on unique_ptr
     this->ghosts.push_back(std::move (blinky));
@@ -51,22 +38,22 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	this->board = Board{};
 
-	this->map = Drawable{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
+	this->map = Drawable{this->sprites, this->win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
 
-	this->lives = Lives{sprites, win_surf};
+	this->lives = Lives{this->sprites, this->win_surf};
 
-	this->score = Score{sprites, win_surf};
+	this->score = Score{this->sprites, this->win_surf};
 
 	this->score.print_basic_scores();
 
 	while (!this->quit)
 	{
-		this->start_game(pWindow, win_surf, sprites, map_sketch);
+		this->start_game();
 	}
 }
 
 // Game start & Game over restart
-void Game::start_game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites, std::array<std::string, MAP_HEIGHT> map_sketch)
+void Game::start_game()
 {
 	while (!this->quit)
 	{
@@ -74,19 +61,19 @@ void Game::start_game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* s
 
 		this->lives.restore_lives();
 		this->score.reset_score();
-		this->new_life(pWindow, win_surf, sprites, map_sketch);
+		this->new_life();
 	}
 }
 
 // Restart pacman new life
-void Game::new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites, std::array<std::string, MAP_HEIGHT> map_sketch)
+void Game::new_life()
 {
 	while (!this->quit && !this->game_lost)
 	{
 		this->life_lost = false;
 
-		this->board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
-		Word ready{sprites, win_surf};
+		this->board.reset_board(this->map_sketch, pacman, ghosts, this->sprites, this->win_surf);
+		Word ready{this->sprites, this->win_surf};
 		ready.set_word("READY!");
 
 		//Reset position of everything
@@ -110,11 +97,11 @@ void Game::new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* spr
 		//Add delay for ready to stay
 		SDL_Delay(2000);
 
-		this->loop(pWindow);
+		this->loop();
 	}
 }
 
-void Game::loop(SDL_Window* pWindow)
+void Game::loop()
 {
 	while (!this->quit && !this->life_lost && !this->game_lost)
 	{
@@ -140,12 +127,15 @@ void Game::loop(SDL_Window* pWindow)
 
 		// Gestion du clavier     
 		const Uint8 *keys = SDL_GetKeyboardState(NULL);
+
+		// quit all loops
 		if (keys[SDL_SCANCODE_ESCAPE])
 		{
 			this->quit = true;
 		}
 		if (keys[SDL_SCANCODE_RETURN])
-		{
+		{	
+			//quit partie loop
 			this->game_lost = true;
 		}
 		if (keys[SDL_SCANCODE_LEFT])
@@ -165,30 +155,29 @@ void Game::loop(SDL_Window* pWindow)
 			this->pacman.set_direction(Direction::DOWN, board_cells);
 		}
 
-		this->score.print_scores();
-
-		this->map.draw(0, 0);
-
-		this->board.draw();
-
+		// Loop actions
 		this->pacman.move(board_cells);
 
-		// if (this->board.check_collide_ghost(pacman, ghosts))
-		// {
-		// 	this->lives.remove_life();
-		// 	this->life_lost = true;
-		// 	if (this->lives.game_over())
-		// 		this->game_lost = true;
-
-		// }
 		this->board.interract(pacman, score);
 
 		this->nb_eaten_gum = board.get_eaten_gum_nb();
-
 		if (nb_eaten_gum == 188)
 		{
 			this->life_lost = true;
 		}
+
+		if (this->board.check_collide_ghost(pacman, ghosts))
+		{
+			this->lives.remove_life();
+			this->life_lost = true;
+			if (this->lives.game_over())
+				this->game_lost = true;
+		}
+
+		//Draw everything
+		this->score.print_scores();
+
+		this->map.draw(0, 0);
 
 		for (auto& ghost : ghosts)
 		{
@@ -196,11 +185,14 @@ void Game::loop(SDL_Window* pWindow)
 			ghost->draw(update_anim);
 		}
 
+		this->board.draw();
+
 		this->pacman.draw(update_anim);
+
 		this->lives.draw_lives();
 
-		// AFFICHAGE
-		SDL_UpdateWindowSurface(pWindow); 
+		// Display frame
+		SDL_UpdateWindowSurface(this->pWindow); 
 
 		//200 FPS !!
 		Uint64 end = SDL_GetPerformanceCounter();
@@ -212,7 +204,7 @@ void Game::loop(SDL_Window* pWindow)
 bool Game::get_update_animation_index()
 {
 	game_animation_index++;
-	if (!(game_animation_index = game_animation_index % 10))
+	if (!(game_animation_index = game_animation_index % 20))
 		return true;
 	return false;
 }

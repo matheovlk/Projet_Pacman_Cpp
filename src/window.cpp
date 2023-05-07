@@ -20,7 +20,7 @@ int Window::init(SDL_Window* &pWindow, SDL_Surface* &win_surf, SDL_Surface* &spr
 
 void Window::run_game()
 {
-    Game game;
-    game.init(pWindow, win_surf, sprites);
+    Game game{pWindow, win_surf, sprites};
+    game.init();
     SDL_Quit(); // ON SORT
 }
