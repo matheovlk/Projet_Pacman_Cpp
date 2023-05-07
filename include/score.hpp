@@ -15,6 +15,7 @@ class Score
         void print_scores();
         void print_basic_scores();
         int get_score();
+
         int get_high_score();
         void reset_score();
     
@@ -24,6 +25,6 @@ class Score
         SDL_Surface* win_surf;
         SDL_Surface* sprites;
         Word high_score_word;
-	    Word score_sprite;
-	    Word high_score_sprite;
+	      Word score_sprite;
+	      Word high_score_sprite;
 };

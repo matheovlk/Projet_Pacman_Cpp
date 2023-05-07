@@ -10,8 +10,11 @@ class Ghost: public Movable
     public:
         Ghost(){};
 
-        void move(Board_cells& board, int& nb_eaten_gum)
+        void move(Board_cells* board, int& nb_eaten_gum)
         {
+
+            Board_cells& board_ref = *board;
+
             const unsigned char half_cell_size = CELL_SIZE / 2;
             Movable::move(board);
 
@@ -19,10 +22,10 @@ class Ghost: public Movable
             if (position.y % CELL_SIZE == half_cell_size && position.x % CELL_SIZE == half_cell_size)
             {
                 std::vector<Direction> next_possible_directs = {};
-                Cell * left_cell = board[static_cast<int>(floor((position.x - (half_cell_size + 1)) / CELL_SIZE)) % MAP_WIDTH][floor(position.y / static_cast<unsigned int>(CELL_SIZE))].get();
-                Cell * right_cell = board[static_cast<int>(floor((position.x + half_cell_size) / (CELL_SIZE))) % MAP_WIDTH][floor(position.y / static_cast<unsigned int>(CELL_SIZE))].get();
-                Cell * up_cell = board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))].get();
-                Cell * down_cell = board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y + half_cell_size) / static_cast<unsigned int>(CELL_SIZE))].get();
+                Cell * left_cell = board_ref[static_cast<int>(floor((position.x - (half_cell_size + 1)) / CELL_SIZE)) % MAP_WIDTH][floor(position.y / static_cast<unsigned int>(CELL_SIZE))].get();
+                Cell * right_cell = board_ref[static_cast<int>(floor((position.x + half_cell_size) / (CELL_SIZE))) % MAP_WIDTH][floor(position.y / static_cast<unsigned int>(CELL_SIZE))].get();
+                Cell * up_cell = board_ref[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))].get();
+                Cell * down_cell = board_ref[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y + half_cell_size) / static_cast<unsigned int>(CELL_SIZE))].get();
                 const bool can_pass_left = left_cell->get_pac_can_pass();
                 const bool can_pass_right = right_cell->get_pac_can_pass();
                 const bool can_pass_up = up_cell->get_pac_can_pass();
