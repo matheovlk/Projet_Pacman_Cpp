@@ -14,7 +14,7 @@ int Window::init(SDL_Window* &pWindow, SDL_Surface* &win_surf, SDL_Surface* &spr
     Uint32 color = SDL_MapRGB(win_surf->format,0,0,0);
     SDL_FillRect(win_surf,NULL, color);
 
-    sprites = SDL_LoadBMP("./pacman_sprites.bmp");
+    sprites = SDL_LoadBMP("./assets/pacman_sprites.bmp");
     return 0;
 }
 
