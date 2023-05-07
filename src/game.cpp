@@ -61,15 +61,13 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	this->lives = Lives{sprites, win_surf};
 
-	Word high_score_word{sprites, win_surf};
-	high_score_word.set_word("HIGH SCORE");
-	high_score_word.draw(HIGH_SCORE_BASIC_OFFSET, 10);
+	// Word high_score_word{sprites, win_surf};
+	// high_score_word.set_word("HIGH SCORE");
+	// high_score_word.draw(HIGH_SCORE_BASIC_OFFSET, 10);
 
-	Word score_sprite{sprites, win_surf};
-	Word high_score_sprite{sprites, win_surf};
+	// Word score_sprite{sprites, win_surf};
+	// Word high_score_sprite{sprites, win_surf};
 
-	
-  
 	Word ready{sprites, win_surf};
 	ready.set_word("READY!");
 	board.draw();
@@ -145,16 +143,17 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		}
 
 		int sc = score.get_score();
-		score_sprite.set_word(sc);
+		// score_sprite.set_word(sc);
+
 		// We want the last number of the score to be always on the same place.
 		// When the score length increments (90 to 100 for ex), the zero stays at the same place
 		// The bigger the score is, the smaller the offset is
-		score_sprite.draw(SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(sc).length()), 30);
+		// score_sprite.draw(SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(sc).length()), 30);
 
-		int high_sc = score.get_high_score();
-		score_sprite.set_word(high_sc);
+		// int high_sc = score.get_high_score();
+		// score_sprite.set_word(high_sc);
 		// Same logic as the score
-		score_sprite.draw(HIGH_SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(high_sc).length()-4), 30);
+		// score_sprite.draw(HIGH_SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(high_sc).length()-4), 30);
 
 		map.draw(0, 0);
 
