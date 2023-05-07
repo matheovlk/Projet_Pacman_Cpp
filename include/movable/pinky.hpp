@@ -24,7 +24,7 @@ class Pinky: public Ghost
                 {{GHOST_DOWN_1_SPRITE_X, PINKY_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H},
                 {GHOST_DOWN_2_SPRITE_X, PINKY_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H}}}
             };
-            direction_ = Direction::LEFT;
+            direction_ = Direction::UP;
             current_texture = animation_textures.find(direction_)->second;
             sprite_coord_ = current_texture[0];
             nb_anim_frames = 2;

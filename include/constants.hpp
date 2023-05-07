@@ -116,6 +116,7 @@ enum class Cell_type
     Gum,
     Super_gum,
     Fruit
+    Door
 };
 
 template <typename T> struct Coordinates{ 

@@ -75,8 +75,13 @@ void Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pa
 				// 	board[x][y] = std::make_unique<Fruit>(x, y, sprites, win_surf);
 				// 	break;
 				// }
-                default:
-                {
+				case 'D':
+				{
+					board[x][y] = std::make_unique<Door>();
+					break;
+				}
+        default:
+        {
 					board[x][y] = std::make_unique<NonEatable>();
 				}
 			}
@@ -100,6 +105,24 @@ void Board::draw()
     }
 }
 
+
+const std::unique_ptr<Cell>& get_door(const std::array<std::array<std::unique_ptr<Cell>, MAP_HEIGHT>, MAP_WIDTH>& board, int value)
+{
+	// On parcourt le tableau à deux dimensions
+	for (const auto& row : board) {
+		for (const auto& cell : row) {
+		// On vérifie si la cellule existe et si sa méthode get_type() renvoie la valeur voulue
+		if (cell && cell->get_cell_type() == Cell_type::Door) {
+			// On renvoie la cellule trouvée
+			return cell;
+		}
+		}
+	}
+	// Si on n'a pas trouvé de cellule correspondante, on renvoie une référence à un pointeur nul
+	static std::unique_ptr<Cell> null_ptr;
+	return null_ptr;
+}
+
 void Board::interract(Pacman& pacman, Score& score){
 
 	Coordinates<unsigned char> pacman_coord = pacman.get_position_on_board();
@@ -109,14 +132,23 @@ void Board::interract(Pacman& pacman, Score& score){
 	Cell_type cell_type = pacman_cell->get_cell_type();
 
 	if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum)
-		{
-			auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
-			if (eatable_ptr->get_eaten() == false) {
-				score.update_score(cell_type);
-			}
-			eatable_ptr->set_eaten();
+	{
+		auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
+		if (eatable_ptr->get_eaten() == false) {
+			score.update_score(cell_type);
+      eatable_ptr->set_eaten();
 		}
+ 
+		if (cell_type == Cell_type::Gum && eatable_ptr->get_eaten() == false)
+		{
+			eaten_gum_nb++;
+		}
+	}
+}
 
+int& Board::get_eaten_gum_nb()
+{
+	return eaten_gum_nb;
 }
 
 

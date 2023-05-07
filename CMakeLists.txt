@@ -23,6 +23,7 @@ target_sources(${PROJECT_NAME}
 	src/word.cpp
 	src/score.cpp
 	src/cells/cell.cpp
+	src/cells/door.cpp
 	src/cells/nonEatable.cpp
 	src/cells/pacgum.cpp
 	src/cells/superPacgum.cpp
