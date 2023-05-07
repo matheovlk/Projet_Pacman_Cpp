@@ -3,6 +3,12 @@
 Board::Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf){
 	sketch_to_board(map_sketch, pacman, ghosts, sprites, win_surf);
 }
+void Board::reset_board(const std::array<std::string, MAP_HEIGHT>map_sketch , Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf)
+{
+	sketch_to_board(map_sketch, pacman, ghosts, sprites, win_surf);
+	this->eaten_gum_nb = 0;
+}
+
 
 void Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf)
 {
@@ -134,16 +140,32 @@ void Board::interract(Pacman& pacman, Score& score){
 	if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum)
 	{
 		auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
-		if (eatable_ptr->get_eaten() == false) {
-			score.update_score(cell_type);
-      eatable_ptr->set_eaten();
-		}
- 
+
 		if (cell_type == Cell_type::Gum && eatable_ptr->get_eaten() == false)
 		{
 			eaten_gum_nb++;
 		}
+		if (eatable_ptr->get_eaten() == false) {
+			score.update_score(cell_type);
+      		eatable_ptr->set_eaten();
+		}
+ 
+
 	}
+}
+
+bool Board::check_game_over(Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts)
+{		
+	Coordinates<unsigned char> pacman_position = pacman.get_position_on_board();
+
+	for (auto& ghost : ghosts)
+	{
+		Coordinates<unsigned char> ghost_position = ghost->get_position_on_board();
+
+		if (ghost_position.x == pacman_position.x && ghost_position.y == pacman_position.y)
+			return true;
+	}
+	return false;
 }
 
 int& Board::get_eaten_gum_nb()

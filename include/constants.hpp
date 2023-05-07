@@ -5,9 +5,10 @@ constexpr float GAME_SPEED = 10;
 constexpr unsigned char MAP_WIDTH = 21;
 constexpr unsigned char MAP_HEIGHT = 27;
 
-constexpr unsigned char OFFSET = 75;
-constexpr unsigned char WORD_OFFSET = 0;
+constexpr unsigned int OFFSET = 75;
+constexpr unsigned int WORD_OFFSET = 0;
 constexpr unsigned char CELL_SIZE = 32;
+constexpr unsigned int FOOTER_OFFSET = OFFSET + MAP_HEIGHT * CELL_SIZE;
 //x y  w h
 constexpr unsigned char BASIC_SPRITE_SCALE = 2;
 
@@ -115,7 +116,7 @@ enum class Cell_type
     Spawn,
     Gum,
     Super_gum,
-    Fruit
+    Fruit,
     Door
 };
 

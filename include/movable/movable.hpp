@@ -28,7 +28,10 @@ class Movable: public Drawable
 
         void draw(const bool& update_anim);
 
-        virtual void move(Board_cells& );
+        void move(Board_cells& );
+
+        Coordinates<unsigned char> get_position_on_board();
+
 
     protected:
         Coordinates<int> position;

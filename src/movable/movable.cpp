@@ -65,9 +65,10 @@ void Movable::move(Board_cells& board)
         }
         case Direction::UP:
         {
+            auto up_cell = &board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))];
             if
             (
-                board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
+                (up_cell->get()->get_pac_can_pass() || up_cell->get()->get_cell_type() == Cell_type::Door) && \
                 position.x % CELL_SIZE == half_cell_size
             )
                 position.y --;
@@ -84,5 +85,14 @@ void Movable::move(Board_cells& board)
             break;
         }
     }
+
+}
+
+Coordinates<unsigned char> Movable::get_position_on_board()
+{
+
+    unsigned char x_on_board = position.x / CELL_SIZE;
+    unsigned char y_on_board = position.y / CELL_SIZE;
+    return {x_on_board, y_on_board};
 
 }

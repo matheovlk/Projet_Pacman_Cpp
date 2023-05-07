@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-Drawable::Drawable(SDL_Surface* sprites, SDL_Surface* win_surf, const SDL_Rect& sprite_coord, const unsigned char scale, const bool transparent, const char offset)
+Drawable::Drawable(SDL_Surface* sprites, SDL_Surface* win_surf, const SDL_Rect& sprite_coord, const unsigned char scale, const bool transparent, const int offset)
 {
     sprites_ = sprites;
     win_surf_ = win_surf;
@@ -37,3 +37,8 @@ void Drawable::draw(const int x, const int y)
     SDL_Rect location = { x ,y + offset_, (sprite_coord_.w * scale_) , (sprite_coord_.h * scale_)};
     SDL_BlitScaled(sprites_, &sprite_coord_, win_surf_, &location);
 }
+
+void Drawable::set_sprite(SDL_Rect new_sprite)
+{
+    this->sprite_coord_ = new_sprite;
+};

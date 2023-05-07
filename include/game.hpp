@@ -19,6 +19,8 @@
 #include "clyde.hpp"
 #include "cell.hpp"
 #include "word.hpp"
+#include "score.hpp"
+#include "lives.hpp"
 
 class Game
 {
