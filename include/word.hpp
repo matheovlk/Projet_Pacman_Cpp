@@ -13,7 +13,7 @@
 class Word: public Drawable
 {
     public :
-        Word(SDL_Surface* sprites, SDL_Surface* win_surf): Drawable(sprites, win_surf){};
+        Word(SDL_Surface* sprites, SDL_Surface* win_surf): Drawable(sprites, win_surf, WORD_OFFSET){};
         
         // for strings
         void set_word(std::string word)

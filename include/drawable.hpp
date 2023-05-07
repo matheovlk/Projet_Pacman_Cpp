@@ -8,9 +8,9 @@ class Drawable
 {
     public:
 
-        Drawable(SDL_Surface* sprites, SDL_Surface* win_surf, const SDL_Rect& sprite_coord, unsigned char scale = BASIC_SPRITE_SCALE, bool transparent = true);
+        Drawable(SDL_Surface* sprites, SDL_Surface* win_surf, const SDL_Rect& sprite_coord, unsigned char scale = BASIC_SPRITE_SCALE, bool transparent = true, const char offset = OFFSET);
 
-        Drawable(SDL_Surface* sprites, SDL_Surface* win_surf);
+        Drawable(SDL_Surface* sprites, SDL_Surface* win_surf, const char offset = OFFSET);
         
         void draw(int x, int y);
 
@@ -21,4 +21,5 @@ class Drawable
         bool transparent_;
         SDL_Surface* sprites_ = nullptr;
         SDL_Surface* win_surf_ = nullptr;
+        int offset_;
 };

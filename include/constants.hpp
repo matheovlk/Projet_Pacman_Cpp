@@ -5,9 +5,14 @@ constexpr float GAME_SPEED = 10;
 constexpr unsigned char MAP_WIDTH = 21;
 constexpr unsigned char MAP_HEIGHT = 27;
 
+constexpr unsigned char OFFSET = 75;
+constexpr unsigned char WORD_OFFSET = 0;
 constexpr unsigned char CELL_SIZE = 32;
 //x y  w h
 constexpr unsigned char BASIC_SPRITE_SCALE = 2;
+
+constexpr unsigned int WINDOW_WIDTH = 672;
+constexpr unsigned int WINDOW_HEIGHT = 1000;
 
 constexpr unsigned int MAP_SPRITE_X = 369;
 constexpr unsigned int MAP_SPRITE_Y = 3;
@@ -23,6 +28,25 @@ constexpr unsigned char GUM_SPRITE_SCALE = 4;
 constexpr unsigned char SUPERGUM_SPRITE_SIZE = 7;
 constexpr unsigned int SUPERGUM_SPRITE_X = 9;
 constexpr unsigned int SUPERGUM_SPRITE_Y = 79;
+
+constexpr unsigned char FRUIT_SPRITE_SIZE = 14;
+
+constexpr unsigned int CHERRY_SPRITE_X = 290;
+constexpr unsigned int CHERRY_SPRITE_Y = 238;
+constexpr unsigned int STRAWBERRY_SPRITE_X = 307;
+constexpr unsigned int STRAWBERRY_SPRITE_Y = 238;
+constexpr unsigned int ORANGE_SPRITE_X = 322;
+constexpr unsigned int ORANGE_SPRITE_Y = 238;
+constexpr unsigned int APPLE_SPRITE_X = 338;
+constexpr unsigned int APPLE_SPRITE_Y = 238;
+constexpr unsigned int MELON_SPRITE_X = 355;
+constexpr unsigned int MELON_SPRITE_Y = 238;
+constexpr unsigned int GALAXIAN_SPRITE_X = 371;
+constexpr unsigned int GALAXIAN_SPRITE_Y = 238;
+constexpr unsigned int BELL_SPRITE_X = 387;
+constexpr unsigned int BELL_SPRITE_Y = 238;
+constexpr unsigned int KEY_SPRITE_X = 402;
+constexpr unsigned int KEY_SPRITE_Y = 238;
 
 constexpr unsigned int CHARACTER_SPRITE_W = 14;
 constexpr unsigned int CHARACTER_SPRITE_H = 14;
@@ -73,6 +97,11 @@ constexpr unsigned int CHARACTER_M_X = CHARACTER_EXCLAL_X + 8;
 constexpr unsigned int CHARACTER_N_X = CHARACTER_M_X + 8;
 constexpr unsigned int CHARACTER_O_X = CHARACTER_N_X + 8;
 
+constexpr unsigned int SCALED_CHARACTER = CHARACTER_SIZE * BASIC_SPRITE_SCALE;
+// The score can be maximum 999990
+constexpr unsigned int LENGTH_SCORE = SCALED_CHARACTER * 6;
+constexpr unsigned int SCORE_BASIC_OFFSET = 30;
+constexpr unsigned int HIGH_SCORE_BASIC_OFFSET = 250;
 
 
 
@@ -86,6 +115,7 @@ enum class Cell_type
     Spawn,
     Gum,
     Super_gum,
+    Fruit
     Door
 };
 

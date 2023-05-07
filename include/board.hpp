@@ -5,6 +5,7 @@
 #include "pacgum.hpp"
 #include "superPacgum.hpp"
 #include "nonEatable.hpp"
+#include "score.hpp"
 #include "door.hpp"
 
 #include <iostream>
@@ -21,7 +22,7 @@ class Board
             return board;
         }
 
-        void interract(Pacman& pacman);
+        void interract(Pacman& pacman, Score& score);
 
         void draw();
         
