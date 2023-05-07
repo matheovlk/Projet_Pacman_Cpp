@@ -17,6 +17,8 @@ class Board
 {
     public:
         
+        Board(){};
+
         Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf);
 
         Board_cells& get_board_cells(){

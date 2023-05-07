@@ -3,7 +3,7 @@
 #include "score.hpp"
 #include "fruit.hpp"
 
-
+// Init the game once
 void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
 {
 	std::array<std::string, MAP_HEIGHT> map_sketch = {
@@ -37,12 +37,9 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	};	
 
 	SDL_Event event;
-	
-	bool quit = false;
 
-	Pacman pacman{sprites, win_surf};
+	this->pacman = Pacman{sprites, win_surf};
 
-	std::vector<std::unique_ptr<Ghost>> ghosts;
 	auto blinky = std::make_unique<Blinky>(sprites, win_surf);
 	auto inky = std::make_unique<Inky>(sprites, win_surf);
 	auto pinky = std::make_unique<Pinky>(sprites, win_surf);
@@ -50,61 +47,80 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	//Fruit fruit = std::make_unique<Fruit>(sprites, win_surf);
 
-	// Le std::move dans le code précédent sert à indiquer que le pointeur unique red_ghost peut être déplacé vers l’élément du vecteur,
-	// c’est-à-dire que la propriété du pointeur est transférée du red_ghost au vecteur.
-	// Cela permet d’éviter de copier le pointeur unique, ce qui n’est pas possible car il ne peut y avoir qu’un seul propriétaire du pointeur.
-    ghosts.push_back(std::move (blinky));
-	ghosts.push_back(std::move (inky));
-    ghosts.push_back(std::move (pinky));
-    ghosts.push_back(std::move (clyde));
+	// avoid copy on unique_ptr
+    this->ghosts.push_back(std::move (blinky));
+	this->ghosts.push_back(std::move (inky));
+    this->ghosts.push_back(std::move (pinky));
+    this->ghosts.push_back(std::move (clyde));
 
-	Board board{map_sketch, pacman, ghosts, sprites, win_surf};
+	this->board = Board{map_sketch, pacman, ghosts, sprites, win_surf};
 
-	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
+	this->map = Drawable{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
 
-	map.draw(0, 0);
+	this->lives = Lives{sprites, win_surf};
 
-	Score score{};
-
-	//Fruit fruit1{100, 100, sprites, win_surf};
-
-	//Fruit fruit2{};
-
-
-	Lives lives{sprites, win_surf};
-
-	Word high_score_word{sprites, win_surf};
-	high_score_word.set_word("HIGH SCORE");
-	high_score_word.draw(HIGH_SCORE_BASIC_OFFSET, 10);
-
-	Word score_sprite{sprites, win_surf};
-	Word high_score_sprite{sprites, win_surf};
-
-	
-  
-	Word ready{sprites, win_surf};
-	ready.set_word("READY!");
-	board.draw();
-	ready.draw(290, 564);
-	int& nb_eaten_gum = board.get_eaten_gum_nb();
-	Board_cells& board_cells = board.get_board_cells();
-
-	for (auto& ghost : ghosts)
+	while (!this->quit)
 	{
-		ghost->draw(update_anim);
+		this->start_game(pWindow, win_surf, sprites);
 	}
+}
 
-	pacman.draw(update_anim);
-	SDL_UpdateWindowSurface(pWindow);
-	SDL_Delay(2000);
-
-
-	while (!quit)
+// Game start & Game over restart
+void Game::start_game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
+{
+	while (!this->quit)
 	{
-		//std::cout << nb_eaten_gum << std::endl;
+		this->lives.restore_lives();
+		this->score.reset_score();
+		this->new_life(pWindow, win_surf, sprites);
+	}
+}
+
+// Restart pacman new life
+void Game::new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
+{
+	while (!this->quit)
+	{
+		Word ready{sprites, win_surf};
+		ready.set_word("READY!");
+
+		//Reset position of everything
+		this->board_cells = &(board.get_board_cells());
+
+		this->nb_eaten_gum = board.get_eaten_gum_nb();
+
+		// Draw everything 
+		this->map.draw(0, 0);
+		this->board.draw();
+		ready.draw(290, 564);
+		pacman.draw(update_anim);
+
+		//Draw every ghost
+		for (auto& ghost : ghosts)
+		{
+			ghost->draw(update_anim);
+		}
+
+		//Draw to window
+		SDL_UpdateWindowSurface(pWindow);
+
+		//Add delay for ready to stay
+		SDL_Delay(2000);
+
+		this->loop(pWindow);
+	}
+}
+
+void Game::loop(SDL_Window* pWindow)
+{
+	while (!this->quit)
+	{
+		// Timer start for frame duration
 		Uint64 start = SDL_GetPerformanceCounter();
 
 		SDL_Event event;
+		
+		// Exit sdl on quit
 		while (!quit && SDL_PollEvent(&event))
 		{
 			switch (event.type)
@@ -115,10 +131,11 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 			default: break;
 			}
 		}
+
+		// Clock for animated Drawables
 		update_anim = get_update_animation_index();
 
 		// Gestion du clavier     
-		
 		const Uint8 *keys = SDL_GetKeyboardState(NULL);
 		if (keys[SDL_SCANCODE_ESCAPE])
 			quit = true;
@@ -128,18 +145,17 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		}	
 		if (keys[SDL_SCANCODE_RETURN])
 		{
-			board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
-
-			map.draw(0, 0);
-			board.draw();
-			for (auto& ghost : ghosts)
-			{
-				ghost->draw(update_anim);
-			}
-			pacman.draw(update_anim);
-			ready.draw(290, 490);
-			SDL_UpdateWindowSurface(pWindow); 
-			SDL_Delay(2000);
+			// board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
+			// map.draw(0, 0);
+			// board.draw();
+			// for (auto& ghost : ghosts)
+			// {
+			// 	ghost->draw(update_anim);
+			// }
+			// pacman.draw(update_anim);
+			// ready.draw(290, 490);
+			// SDL_UpdateWindowSurface(pWindow); 
+			// SDL_Delay(2000);
 
 		}
 		if (keys[SDL_SCANCODE_RIGHT])
@@ -156,16 +172,17 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		}
 
 		int sc = score.get_score();
-		score_sprite.set_word(sc);
+		// score_sprite.set_word(sc);
+
 		// We want the last number of the score to be always on the same place.
 		// When the score length increments (90 to 100 for ex), the zero stays at the same place
 		// The bigger the score is, the smaller the offset is
-		score_sprite.draw(SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(sc).length()), 30);
+		// score_sprite.draw(SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(sc).length()), 30);
 
-		int high_sc = score.get_high_score();
-		score_sprite.set_word(high_sc);
+		// int high_sc = score.get_high_score();
+		// score_sprite.set_word(high_sc);
 		// Same logic as the score
-		score_sprite.draw(HIGH_SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(high_sc).length()-4), 30);
+		// score_sprite.draw(HIGH_SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(high_sc).length()-4), 30);
 
 		map.draw(0, 0);
 
@@ -175,20 +192,20 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 		if (board.check_game_over(pacman, ghosts))
 		{
-			lives.remove_life();
+			// lives.remove_life();
 			
-			board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
+			// board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
 
-			map.draw(0, 0);
-			board.draw();
-			for (auto& ghost : ghosts)
-			{
-				ghost->draw(update_anim);
-			}
-			pacman.draw(update_anim);
-			ready.draw(290, 490);
-			SDL_UpdateWindowSurface(pWindow); 
-			SDL_Delay(2000);
+			// map.draw(0, 0);
+			// board.draw();
+			// for (auto& ghost : ghosts)
+			// {
+			// 	ghost->draw(update_anim);
+			// }
+			// pacman.draw(update_anim);
+			// ready.draw(290, 490);
+			// SDL_UpdateWindowSurface(pWindow); 
+			// SDL_Delay(2000);
 		}
 		board.interract(pacman, score);
 

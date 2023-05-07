@@ -25,8 +25,11 @@ void Movable::draw(const bool& update_anim)
     Drawable::draw(position.x - (sprite_coord_.w * scale_  / 2), position.y - (sprite_coord_.h * scale_ / 2));
 }
 
-void Movable::move(Board_cells& board)
+void Movable::move(Board_cells* board)
 {
+
+    Board_cells& board_ref = *board;
+
     const unsigned char half_cell_size = CELL_SIZE / 2;
 
     switch(direction_)
@@ -41,7 +44,7 @@ void Movable::move(Board_cells& board)
                 position.x --;
             else if
             (
-                board[floor((position.x - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))][floor(position.y / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
+                board_ref[floor((position.x - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))][floor(position.y / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
                 position.y % CELL_SIZE == half_cell_size
             )
                 position.x --;
@@ -57,7 +60,7 @@ void Movable::move(Board_cells& board)
                 position.x ++;
             else if
             (
-                board[floor((position.x + (half_cell_size)) / static_cast<unsigned int>(CELL_SIZE))][floor(position.y / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
+                board_ref[floor((position.x + (half_cell_size)) / static_cast<unsigned int>(CELL_SIZE))][floor(position.y / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
                 position.y % CELL_SIZE == half_cell_size
             )
                 position.x ++;
@@ -65,7 +68,7 @@ void Movable::move(Board_cells& board)
         }
         case Direction::UP:
         {
-            auto up_cell = &board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))];
+            auto up_cell = &board_ref[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y - (half_cell_size + 1)) / static_cast<unsigned int>(CELL_SIZE))];
             if
             (
                 (up_cell->get()->get_pac_can_pass() || up_cell->get()->get_cell_type() == Cell_type::Door) && \
@@ -78,7 +81,7 @@ void Movable::move(Board_cells& board)
         {
             if
             (
-                board[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y + (half_cell_size)) / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
+                board_ref[floor(position.x / static_cast<unsigned int>(CELL_SIZE))][floor((position.y + (half_cell_size)) / static_cast<unsigned int>(CELL_SIZE))]->get_pac_can_pass() && \
                 position.x % CELL_SIZE == half_cell_size
             )
                 position.y ++;
