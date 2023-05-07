@@ -1,6 +1,5 @@
 
 #include "game.hpp"
-#include "score.hpp"
 
 void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
 {
@@ -62,7 +61,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	Score score{};
 
-
+	Lives lives{sprites, win_surf};
 
 	Word high_score_word{sprites, win_surf};
 	high_score_word.set_word("HIGH SCORE");
@@ -156,7 +155,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		score_sprite.set_word(high_sc);
 		// Same logic as the score
 		score_sprite.draw(HIGH_SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(high_sc).length()-4), 30);
-		
+
 		map.draw(0, 0);
 
 		board.draw();
@@ -165,7 +164,9 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 		if (board.check_game_over(pacman, ghosts))
 		{
-						board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
+			lives.remove_life();
+			
+			board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
 
 			map.draw(0, 0);
 			board.draw();
@@ -177,11 +178,9 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 			ready.draw(290, 490);
 			SDL_UpdateWindowSurface(pWindow); 
 			SDL_Delay(2000);
-
 		}
 		board.interract(pacman, score);
 
-		// std:cout << 
 		for (auto& ghost : ghosts)
 		{
 			ghost->move(board_cells, nb_eaten_gum);
@@ -189,6 +188,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 		}
 
 		pacman.draw(update_anim);
+		lives.draw_lives();
 
 		// AFFICHAGE
 		SDL_UpdateWindowSurface(pWindow); 
