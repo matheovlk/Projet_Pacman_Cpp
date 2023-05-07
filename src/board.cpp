@@ -95,7 +95,7 @@ void Board::draw()
     }
 }
 
-void Board::interract(Pacman& pacman){
+void Board::interract(Pacman& pacman, Score& score){
 
 	Coordinates<unsigned char> pacman_coord = pacman.get_position_on_board();
 	
@@ -106,7 +106,31 @@ void Board::interract(Pacman& pacman){
 	if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum)
 		{
 			auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
+			if (eatable_ptr->get_eaten() == false) {
+				score.update_score(cell_type);
+			}
 			eatable_ptr->set_eaten();
 		}
 
 }
+
+
+
+// void Board::interract(Pacman& pacman, Score& score){
+
+// 	Coordinates<unsigned char> pacman_coord = pacman.get_position_on_board();
+	
+// 	Cell* pacman_cell = board[pacman_coord.x][pacman_coord.y].get();
+
+// 	Cell_type cell_type = pacman_cell->get_cell_type();
+
+// 	if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum)
+// 		{
+// 			auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
+// 			if (eatable_ptr->get_eaten() == false) {
+// 				score.update_score(cell_type);
+// 			}
+// 			eatable_ptr->set_eaten();
+// 		}
+
+// }
