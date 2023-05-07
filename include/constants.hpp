@@ -29,6 +29,25 @@ constexpr unsigned char SUPERGUM_SPRITE_SIZE = 7;
 constexpr unsigned int SUPERGUM_SPRITE_X = 9;
 constexpr unsigned int SUPERGUM_SPRITE_Y = 79;
 
+constexpr unsigned char FRUIT_SPRITE_SIZE = 14;
+
+constexpr unsigned int CHERRY_SPRITE_X = 290;
+constexpr unsigned int CHERRY_SPRITE_Y = 238;
+constexpr unsigned int STRAWBERRY_SPRITE_X = 307;
+constexpr unsigned int STRAWBERRY_SPRITE_Y = 238;
+constexpr unsigned int PEACH_SPRITE_X = 322;
+constexpr unsigned int PEACH_SPRITE_Y = 238;
+constexpr unsigned int APPLE_SPRITE_X = 338;
+constexpr unsigned int APPLE_SPRITE_Y = 238;
+constexpr unsigned int GRAPES_SPRITE_X = 355;
+constexpr unsigned int GRAPES_SPRITE_Y = 238;
+constexpr unsigned int GALAXIAN_SPRITE_X = 371;
+constexpr unsigned int GALAXIAN_SPRITE_Y = 238;
+constexpr unsigned int BELL_SPRITE_X = 387;
+constexpr unsigned int BELL_SPRITE_Y = 238;
+constexpr unsigned int KEY_SPRITE_X = 402;
+constexpr unsigned int KEY_SPRITE_Y = 238;
+
 constexpr unsigned int CHARACTER_SPRITE_W = 14;
 constexpr unsigned int CHARACTER_SPRITE_H = 14;
 
@@ -96,6 +115,7 @@ enum class Cell_type
     Spawn,
     Gum,
     Super_gum,
+    Fruit
 };
 
 template <typename T> struct Coordinates{ 

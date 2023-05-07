@@ -20,7 +20,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	"wwwww.w w234w w.wwwww",
 	"     .  w   w  .     ",
 	"wwwww.w wwwww w.wwwww",
-	"wwwww.w       w.wwwww",
+	"wwwww.w   F   w.wwwww",
 	"wwwww.w wwwww w.wwwww",
 	"wwwww.w wwwww w.wwwww",
 	"w.........w.........w",

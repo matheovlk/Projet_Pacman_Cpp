@@ -70,6 +70,11 @@ void Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pa
 					board[x][y] = std::make_unique<SuperPacgum>(x, y, sprites, win_surf);
 					break;
 				}
+				case 'F':
+				{
+					board[x][y] = std::make_unique<Fruit>(x, y, sprites, win_surf);
+					break;
+				}
                 default:
                 {
 					board[x][y] = std::make_unique<NonEatable>();
