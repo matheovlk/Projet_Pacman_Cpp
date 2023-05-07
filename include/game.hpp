@@ -29,11 +29,9 @@ class Game
         Game(){};
 
         void init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites);
-        // void game_handler(SDL_Window*);
         void start_game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites, std::array<std::string, MAP_HEIGHT> map_sketch);
         void new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites, std::array<std::string, MAP_HEIGHT> map_sketch);
         void loop(SDL_Window*);
-
 
     private:
         bool update_anim = false;
@@ -51,5 +49,4 @@ class Game
         Lives lives{};
         int nb_eaten_gum;
         Board_cells* board_cells;
-
 };

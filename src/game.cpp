@@ -32,7 +32,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	"w.wwwwwww.w.wwwwwww.w",
 	"w...................w",
 	"wwwwwwwwwwwwwwwwwwwww",
-	};	
+	};
 
 	SDL_Event event;
 
@@ -56,6 +56,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	this->lives = Lives{sprites, win_surf};
 
 	this->score = Score{sprites, win_surf};
+
 	this->score.print_basic_scores();
 
 	while (!this->quit)
@@ -70,6 +71,7 @@ void Game::start_game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* s
 	while (!this->quit)
 	{
 		this->game_lost = false;
+
 		this->lives.restore_lives();
 		this->score.reset_score();
 		this->new_life(pWindow, win_surf, sprites, map_sketch);
@@ -82,14 +84,13 @@ void Game::new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* spr
 	while (!this->quit && !this->game_lost)
 	{
 		this->life_lost = false;
+
 		this->board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
 		Word ready{sprites, win_surf};
 		ready.set_word("READY!");
 
 		//Reset position of everything
 		this->board_cells = &(board.get_board_cells());
-
-		this->nb_eaten_gum = board.get_eaten_gum_nb();
 
 		// Draw everything 
 		this->map.draw(0, 0);
@@ -140,45 +141,54 @@ void Game::loop(SDL_Window* pWindow)
 		// Gestion du clavier     
 		const Uint8 *keys = SDL_GetKeyboardState(NULL);
 		if (keys[SDL_SCANCODE_ESCAPE])
-			quit = true;
-		if (keys[SDL_SCANCODE_LEFT])
 		{
-			pacman.set_direction(Direction::LEFT, board_cells);
-		}	
+			this->quit = true;
+		}
 		if (keys[SDL_SCANCODE_RETURN])
 		{
 			this->game_lost = true;
 		}
+		if (keys[SDL_SCANCODE_LEFT])
+		{
+			this->pacman.set_direction(Direction::LEFT, board_cells);
+		}	
 		if (keys[SDL_SCANCODE_RIGHT])
 		{
-			pacman.set_direction(Direction::RIGHT, board_cells);
+			this->pacman.set_direction(Direction::RIGHT, board_cells);
 		}
 		if (keys[SDL_SCANCODE_UP])
 		{
-			pacman.set_direction(Direction::UP, board_cells);
+			this->pacman.set_direction(Direction::UP, board_cells);
 		}
 		if (keys[SDL_SCANCODE_DOWN])
 		{
-			pacman.set_direction(Direction::DOWN, board_cells);
+			this->pacman.set_direction(Direction::DOWN, board_cells);
 		}
 
-		score.print_scores();
+		this->score.print_scores();
 
-		map.draw(0, 0);
+		this->map.draw(0, 0);
 
-		board.draw();
+		this->board.draw();
 
-		pacman.move(board_cells);
+		this->pacman.move(board_cells);
 
-		if (board.check_collide_ghost(pacman, ghosts))
+		// if (this->board.check_collide_ghost(pacman, ghosts))
+		// {
+		// 	this->lives.remove_life();
+		// 	this->life_lost = true;
+		// 	if (this->lives.game_over())
+		// 		this->game_lost = true;
+
+		// }
+		this->board.interract(pacman, score);
+
+		this->nb_eaten_gum = board.get_eaten_gum_nb();
+
+		if (nb_eaten_gum == 188)
 		{
-			lives.remove_life();
 			this->life_lost = true;
-			if (this->lives.game_over())
-				this->game_lost = true;
-
 		}
-		board.interract(pacman, score);
 
 		for (auto& ghost : ghosts)
 		{
@@ -186,16 +196,16 @@ void Game::loop(SDL_Window* pWindow)
 			ghost->draw(update_anim);
 		}
 
-		pacman.draw(update_anim);
-		lives.draw_lives();
+		this->pacman.draw(update_anim);
+		this->lives.draw_lives();
 
 		// AFFICHAGE
 		SDL_UpdateWindowSurface(pWindow); 
 
-		//30 FPS
+		//200 FPS !!
 		Uint64 end = SDL_GetPerformanceCounter();
 		float elapsedMS = (end - start) / (float)SDL_GetPerformanceFrequency() * 1000.0f;
-		SDL_Delay(std::max(floor(10.0f / GAME_SPEED - elapsedMS), 0.0f));
+		SDL_Delay(std::max(floor(5.0f / GAME_SPEED - elapsedMS), 0.0f));
 	}
 }
 
