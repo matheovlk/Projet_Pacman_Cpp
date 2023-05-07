@@ -66,11 +66,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	Score score{};
 
-	//Fruit fruit1{100, 100, sprites, win_surf};
-
-	//Fruit fruit2{};
-
-
 	Lives lives{sprites, win_surf};
 
 	Word high_score_word{sprites, win_surf};

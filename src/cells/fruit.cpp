@@ -26,7 +26,7 @@ void Fruit::appear(int nb_eaten_gum)
     }
     else if(nb_eaten_gum >= 170 && eaten_second_fruit == false && eaten_first_fruit == true)
     {
-        // The fruit appears
+        // The second fruit appears
         this->set_eaten(false);
     }   
     else if(eaten_second_fruit == false)
