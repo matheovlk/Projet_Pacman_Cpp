@@ -58,7 +58,10 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
 
 	map.draw(0, 0);
+	
   
+	Word ready{sprites, win_surf};
+	ready.set_word("READY!");
 	board.draw();
 	ready.draw(290, 490);
 	int& nb_eaten_gum = board.get_eaten_gum_nb();
