@@ -14,6 +14,8 @@ class Eatable: public Cell, public Drawable
 
         void set_eaten();
 
+        bool get_eaten();
+
     protected:
         bool eaten = false;
         Coordinates<unsigned int> coord_on_map;

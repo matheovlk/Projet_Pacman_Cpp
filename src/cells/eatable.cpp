@@ -23,6 +23,11 @@ void Eatable::set_eaten()
     eaten = true;
 }
 
+bool Eatable::get_eaten()
+{
+    return eaten;
+}
+
 unsigned int Eatable::board_position_to_xy(const unsigned char pos_on_board,const unsigned char sprite_size)
 {
     const float spritee_offset = sprite_size / 2 * GUM_SPRITE_SCALE;

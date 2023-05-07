@@ -39,7 +39,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	Pacman pacman{sprites, win_surf};
 
-	std::vector<std::unique_ptr<Ghost>> ghosts; //= {Blinky{sprites, win_surf},Blinky{sprites, win_surf},Blinky{sprites, win_surf},Blinky{sprites, win_surf}};
+	std::vector<std::unique_ptr<Ghost>> ghosts;
 	auto blinky = std::make_unique<Blinky>(sprites, win_surf);
 	auto inky = std::make_unique<Inky>(sprites, win_surf);
 	auto pinky = std::make_unique<Pinky>(sprites, win_surf);
@@ -58,11 +58,10 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	Drawable map{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false};
 
 	map.draw(0, 0);
-
-	Word word{sprites, win_surf};
-	word.set_word("dsdjqk!!");
-	word.draw(10, 10);
+  
 	board.draw();
+	ready.draw(290, 490);
+	int& nb_eaten_gum = board.get_eaten_gum_nb();
 	Board_cells& board_cells = board.get_board_cells();
 
 	// std:cout << 
@@ -74,11 +73,12 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	pacman.draw(update_anim);
 	SDL_UpdateWindowSurface(pWindow);
-	// SDL_Delay(2000);
+	SDL_Delay(2000);
 
 
 	while (!quit)
 	{
+		std::cout << nb_eaten_gum << std::endl;
 		Uint64 start = SDL_GetPerformanceCounter();
 
 		SDL_Event event;
@@ -115,6 +115,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 				ghost->draw(update_anim);
 			}
 			pacman.draw(update_anim);
+			ready.draw(290, 490);
 			SDL_UpdateWindowSurface(pWindow); 
 			SDL_Delay(2000);
 
@@ -149,7 +150,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 		pacman.draw(update_anim);
 
-		word.draw(10, 10);
 
 
 		// AFFICHAGE

@@ -86,6 +86,7 @@ enum class Cell_type
     Spawn,
     Gum,
     Super_gum,
+    Door
 };
 
 template <typename T> struct Coordinates{ 
