@@ -46,7 +46,7 @@ void Score::print_scores()
     this->score_sprite.set_word(this->high_score);
     // Same logic as the score
     this->score_sprite.draw(HIGH_SCORE_BASIC_OFFSET+LENGTH_SCORE-SCALED_CHARACTER*(std::to_string(this->high_score).length()-4), 30);
-
+}
 
 
 void Score::update_score(Cell_type& cell_type)

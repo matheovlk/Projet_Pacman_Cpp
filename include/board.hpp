@@ -19,8 +19,6 @@ class Board
         
         Board(){};
 
-        Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf);
-
         Board_cells& get_board_cells(){
             return board;
         }
@@ -33,7 +31,7 @@ class Board
         
         void sketch_to_board(const std::array<std::string, MAP_HEIGHT>, Pacman&, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf);
 
-        bool check_game_over(Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts);
+        bool check_collide_ghost(Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts);
 
         int& get_eaten_gum_nb();
 

@@ -1,8 +1,5 @@
 #include "board.hpp"
 
-Board::Board(const std::array<std::string, MAP_HEIGHT> map_sketch, Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf){
-	sketch_to_board(map_sketch, pacman, ghosts, sprites, win_surf);
-}
 void Board::reset_board(const std::array<std::string, MAP_HEIGHT>map_sketch , Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts, SDL_Surface* sprites,SDL_Surface* win_surf)
 {
 	sketch_to_board(map_sketch, pacman, ghosts, sprites, win_surf);
@@ -166,7 +163,7 @@ void Board::interract(Pacman& pacman, Score& score){
 	}
 }
 
-bool Board::check_game_over(Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts)
+bool Board::check_collide_ghost(Pacman& pacman, std::vector<std::unique_ptr<Ghost>>& ghosts)
 {		
 	Coordinates<unsigned char> pacman_position = pacman.get_position_on_board();
 

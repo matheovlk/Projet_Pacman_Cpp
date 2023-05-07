@@ -42,10 +42,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	auto inky = std::make_unique<Inky>(sprites, win_surf);
 	auto pinky = std::make_unique<Pinky>(sprites, win_surf);
 	auto clyde = std::make_unique<Clyde>(sprites, win_surf);
-  Score score{sprites, win_surf};
-
-	score.print_basic_scores();
-
 
 	// avoid copy on unique_ptr
     this->ghosts.push_back(std::move (blinky));
@@ -53,34 +49,40 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
     this->ghosts.push_back(std::move (pinky));
     this->ghosts.push_back(std::move (clyde));
 
-	this->board = Board{map_sketch, pacman, ghosts, sprites, win_surf};
+	this->board = Board{};
 
 	this->map = Drawable{sprites, win_surf, map_sprite_loc, MAP_SPRITE_SCALE, false, OFFSET};
 
 	this->lives = Lives{sprites, win_surf};
 
+	this->score = Score{sprites, win_surf};
+	this->score.print_basic_scores();
+
 	while (!this->quit)
 	{
-		this->start_game(pWindow, win_surf, sprites);
+		this->start_game(pWindow, win_surf, sprites, map_sketch);
 	}
 }
 
 // Game start & Game over restart
-void Game::start_game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
+void Game::start_game(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites, std::array<std::string, MAP_HEIGHT> map_sketch)
 {
 	while (!this->quit)
 	{
+		this->game_lost = false;
 		this->lives.restore_lives();
 		this->score.reset_score();
-		this->new_life(pWindow, win_surf, sprites);
+		this->new_life(pWindow, win_surf, sprites, map_sketch);
 	}
 }
 
 // Restart pacman new life
-void Game::new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
+void Game::new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites, std::array<std::string, MAP_HEIGHT> map_sketch)
 {
-	while (!this->quit)
+	while (!this->quit && !this->game_lost)
 	{
+		this->life_lost = false;
+		this->board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
 		Word ready{sprites, win_surf};
 		ready.set_word("READY!");
 
@@ -113,7 +115,7 @@ void Game::new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* spr
 
 void Game::loop(SDL_Window* pWindow)
 {
-	while (!this->quit)
+	while (!this->quit && !this->life_lost)
 	{
 		// Timer start for frame duration
 		Uint64 start = SDL_GetPerformanceCounter();
@@ -145,18 +147,7 @@ void Game::loop(SDL_Window* pWindow)
 		}	
 		if (keys[SDL_SCANCODE_RETURN])
 		{
-			// board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
-			// map.draw(0, 0);
-			// board.draw();
-			// for (auto& ghost : ghosts)
-			// {
-			// 	ghost->draw(update_anim);
-			// }
-			// pacman.draw(update_anim);
-			// ready.draw(290, 490);
-			// SDL_UpdateWindowSurface(pWindow); 
-			// SDL_Delay(2000);
-
+			this->game_lost = true;
 		}
 		if (keys[SDL_SCANCODE_RIGHT])
 		{
@@ -179,28 +170,13 @@ void Game::loop(SDL_Window* pWindow)
 
 		pacman.move(board_cells);
 
-		if (board.check_game_over(pacman, ghosts))
+		if (board.check_collide_ghost(pacman, ghosts))
 		{
 			lives.remove_life();
+			this->life_lost = true;
+			if (this->lives.game_over())
+				this->game_lost = true;
 
-			if(lives.game_over()==true)
-			{
-				score.reset_score();
-				lives.restore_lives();
-			}
-			
-			// board.reset_board(map_sketch, pacman, ghosts, sprites, win_surf);
-
-			// map.draw(0, 0);
-			// board.draw();
-			// for (auto& ghost : ghosts)
-			// {
-			// 	ghost->draw(update_anim);
-			// }
-			// pacman.draw(update_anim);
-			// ready.draw(290, 490);
-			// SDL_UpdateWindowSurface(pWindow); 
-			// SDL_Delay(2000);
 		}
 		board.interract(pacman, score);
 
