@@ -70,11 +70,11 @@ void Board::sketch_to_board(const std::array<std::string, MAP_HEIGHT> sketch, Pa
 					board[x][y] = std::make_unique<SuperPacgum>(x, y, sprites, win_surf);
 					break;
 				}
-				// case 'F':
-				// {
-				// 	board[x][y] = std::make_unique<Fruit>(x, y, sprites, win_surf);
-				// 	break;
-				// }
+				case 'F':
+				{
+					board[x][y] = std::make_unique<Fruit>(x, y, sprites, win_surf);
+					break;
+				}
 				case 'D':
 				{
 					board[x][y] = std::make_unique<Door>();
@@ -96,7 +96,7 @@ void Board::draw()
         for (auto& cell : row)
 		{
 			Cell_type cell_type = cell->get_cell_type();
-			if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum)
+			if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum || cell_type == Cell_type::Fruit)
 			{
 				auto eatable_ptr = dynamic_cast<Eatable*>(cell.get());
 				eatable_ptr->draw_itself();
@@ -131,12 +131,12 @@ void Board::interract(Pacman& pacman, Score& score){
 
 	Cell_type cell_type = pacman_cell->get_cell_type();
 
-	if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum)
+	if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum || cell_type == Cell_type::Fruit)
 	{
 		auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
 		if (eatable_ptr->get_eaten() == false) {
 			score.update_score(cell_type);
-      eatable_ptr->set_eaten();
+      		eatable_ptr->set_eaten();
 		}
  
 		if (cell_type == Cell_type::Gum && eatable_ptr->get_eaten() == false)
@@ -150,24 +150,3 @@ int& Board::get_eaten_gum_nb()
 {
 	return eaten_gum_nb;
 }
-
-
-
-// void Board::interract(Pacman& pacman, Score& score){
-
-// 	Coordinates<unsigned char> pacman_coord = pacman.get_position_on_board();
-	
-// 	Cell* pacman_cell = board[pacman_coord.x][pacman_coord.y].get();
-
-// 	Cell_type cell_type = pacman_cell->get_cell_type();
-
-// 	if (cell_type == Cell_type::Gum || cell_type == Cell_type::Super_gum)
-// 		{
-// 			auto eatable_ptr = dynamic_cast<Eatable*>(pacman_cell);
-// 			if (eatable_ptr->get_eaten() == false) {
-// 				score.update_score(cell_type);
-// 			}
-// 			eatable_ptr->set_eaten();
-// 		}
-
-// }

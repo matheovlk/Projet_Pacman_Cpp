@@ -7,6 +7,7 @@
 #include "nonEatable.hpp"
 #include "score.hpp"
 #include "door.hpp"
+#include "fruit.hpp"
 
 #include <iostream>
 #include <memory>

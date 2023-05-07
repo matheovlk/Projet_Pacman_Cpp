@@ -1,6 +1,7 @@
 
 #include "game.hpp"
 #include "score.hpp"
+#include "fruit.hpp"
 
 void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites)
 {
@@ -62,6 +63,10 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	Score score{};
 
+	//Fruit fruit1{100, 100, sprites, win_surf};
+
+	//Fruit fruit2{};
+
 
 
 	Word high_score_word{sprites, win_surf};
@@ -76,7 +81,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 	Word ready{sprites, win_surf};
 	ready.set_word("READY!");
 	board.draw();
-	ready.draw(290, 490);
+	ready.draw(290, 564);
 	int& nb_eaten_gum = board.get_eaten_gum_nb();
 	Board_cells& board_cells = board.get_board_cells();
 
@@ -93,7 +98,7 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 	while (!quit)
 	{
-		std::cout << nb_eaten_gum << std::endl;
+		//std::cout << nb_eaten_gum << std::endl;
 		Uint64 start = SDL_GetPerformanceCounter();
 
 		SDL_Event event;
@@ -168,7 +173,6 @@ void Game::init(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* sprites
 
 		board.interract(pacman, score);
 
-		// std:cout << 
 		for (auto& ghost : ghosts)
 		{
 			ghost->move(board_cells);
