@@ -15,7 +15,7 @@ Fruit::Fruit(const unsigned char& x_on_board, const unsigned char& y_on_board, S
 void Fruit::appear(int nb_eaten_gum)
 {
 
-    std::cout << nb_eaten_gum << std::endl;
+    //std::cout << nb_eaten_gum << std::endl;
     if(nb_eaten_gum >= 70)
     {
         // The fruit appears
