@@ -115,7 +115,7 @@ void Game::new_life(SDL_Window* pWindow, SDL_Surface* win_surf, SDL_Surface* spr
 
 void Game::loop(SDL_Window* pWindow)
 {
-	while (!this->quit && !this->life_lost)
+	while (!this->quit && !this->life_lost && !this->game_lost)
 	{
 		// Timer start for frame duration
 		Uint64 start = SDL_GetPerformanceCounter();

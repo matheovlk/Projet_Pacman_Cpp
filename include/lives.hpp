@@ -26,7 +26,7 @@ class Lives
         };
         
         void restore_lives(){
-            this->lives = 2;
+            this->lives = max_lives;
             for (int i = 0; i < this->lives; i++)
             {
                 this->lives_drawables[i].set_sprite(life_sprite);
@@ -43,7 +43,8 @@ class Lives
         }
 
     private:
-        unsigned char lives = 4;
+        unsigned char max_lives = 4;
+        unsigned char lives = max_lives;
         SDL_Rect life_sprite = {PACMAN_LEFT_1_SPRITE_X, PACMAN_SPRITE_Y, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H};
         SDL_Rect empty_sprite = {160, 100, CHARACTER_SPRITE_W, CHARACTER_SPRITE_H};
 
